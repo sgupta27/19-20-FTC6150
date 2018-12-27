@@ -101,7 +101,7 @@ public class CompRobot extends BasicBot
             super.goBackwards(pow, pow);
 
         dist_In = Math.abs(dist_In);
-        float encTarget = 19.4366f * dist_In - 44.004f;
+        float encTarget = Math.abs(dist_In * 20.167f - 46.111f);
 
         while ((Math.abs(super.getDriveLeftOne().getCurrentPosition()) < encTarget)
                 && (Math.abs(super.getDriveRightOne().getCurrentPosition()) < encTarget)
