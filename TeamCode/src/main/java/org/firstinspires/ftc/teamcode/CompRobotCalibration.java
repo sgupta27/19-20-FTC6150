@@ -12,10 +12,46 @@ public class CompRobotCalibration extends LinearOpMode
     {
         compRobot = new CompRobot(hardwareMap, this);
         waitForStart();
-        compRobot.deployMarker();
-        while (opModeIsActive())
+
+        /*compRobot.driveStraight(50,.8f);
+        while (!gamepad1.a && !isStopRequested())
         {
 
         }
+        compRobot.driveStraight(100,.8f);
+        while (!gamepad1.b && !isStopRequested())
+        {
+
+        }
+        compRobot.driveStraight(250,.8f);
+        while (!gamepad1.x && !isStopRequested())
+        {
+
+        }
+        compRobot.driveStraight(400,.8f);
+        while (!gamepad1.y && !isStopRequested())
+        {
+
+        }
+        compRobot.driveStraight(500,.8f);
+        while (!gamepad1.a && !isStopRequested())
+        {
+
+        }
+        compRobot.driveStraight(750,.8f);
+        while (!gamepad1.b && !isStopRequested())
+        {
+
+        }
+        compRobot.driveStraight(850,.8f);
+        while (!gamepad1.x && !isStopRequested())
+        {
+
+        }
+        compRobot.driveStraight(1000,.8f);
+        while (!gamepad1.y && !isStopRequested())
+        {
+
+        }*/
     }
 }

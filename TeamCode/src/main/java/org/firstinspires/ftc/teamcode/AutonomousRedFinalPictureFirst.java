@@ -16,15 +16,15 @@ public class AutonomousRedFinalPictureFirst extends LinearOpMode
         compRobot = new CompRobot(hardwareMap,this);
         vuforiaFunctions = new VuforiaFunctions(this, hardwareMap);
         float yawAngle = 90;
-        float frontSensorDepth = 2;
+        float frontSensorDepth = 4.5f;
         float rightSensorDepth = 2;
         float leftSensorDepth = 2;
         float backSensorDepth = 2;
         float  yawAngleTurn;
         float distanceTraveled = 0;
         waitForStart();
-        compRobot.climbDown();
-        sleep(200);
+        //compRobot.climbDown();
+        //sleep(200);
         compRobot.driveStraight(8,.8f);
         compRobot.pivotenc(95, .8f); //100 worked about 2/3 of the time
 
@@ -72,10 +72,10 @@ public class AutonomousRedFinalPictureFirst extends LinearOpMode
         sleep(200);
         compRobot.deployMarker();
         telemetry.update();
-        compRobot.driveStraight(-20, .5f);
+        /*compRobot.driveStraight(-20, .5f);
         compRobot.pivotenc(-230, .8f);
         compRobot.hugWallToLeft(6 + rightSensorDepth, 9 + rightSensorDepth, 38, 75);
         compRobot.driveStraight(15, .8f); //since the hugwall stops at the crater, this takes robot into crater
-        compRobot.stopDriveMotors();
+        compRobot.stopDriveMotors();*/
     }
 }
