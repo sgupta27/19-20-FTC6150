@@ -171,7 +171,7 @@ public class CompRobot extends BasicBot
                                float distAwayFromFrontWall, float maximumDistance)
     {
         double straightDistanceTraveled = 0;
-        float stepDistance = 8;
+        float stepDistance = 10;
         float stepPivotAmtDeg = 15;
 
         linearOpMode.telemetry.addData("in hug wall", null);
@@ -187,7 +187,7 @@ public class CompRobot extends BasicBot
                 linearOpMode.telemetry.addData("Close Enough", null);
                 linearOpMode.telemetry.addData("front dist= ", straightDist);
                 linearOpMode.telemetry.update();
-                linearOpMode.sleep(2000);
+                linearOpMode.sleep(500);
                 break;
             }
             linearOpMode.telemetry.addData("Going forward 3", null);
@@ -206,17 +206,21 @@ public class CompRobot extends BasicBot
                 {
                     linearOpMode.telemetry.addData("too Close", rightDist);
                     linearOpMode.telemetry.update();
+                    linearOpMode.sleep(500);
                     pivotenc(stepPivotAmtDeg, .5f);
                     driveStraight(stepDistance, .5f);
                     straightDistanceTraveled = straightDistanceTraveled + stepDistance;
+                    linearOpMode.sleep(500);
                     pivotenc(-stepPivotAmtDeg, .5f);
                 } else if (rightDist > tooFarFromSideWall && rightDist < 80)
                 {
                     linearOpMode.telemetry.addData("too Far", rightDist);
                     linearOpMode.telemetry.update();
+                    linearOpMode.sleep(500);
                     pivotenc(-stepPivotAmtDeg, .5f);
                     driveStraight(stepDistance, .5f);
                     straightDistanceTraveled = straightDistanceTraveled + stepDistance;
+                    linearOpMode.sleep(500);
                     pivotenc(stepPivotAmtDeg, .5f);
                 } else //need this null zone for logic, this is where it goes straight, do not comment out
                 {
@@ -229,6 +233,7 @@ public class CompRobot extends BasicBot
                     break;
                 }
             }
+            linearOpMode.sleep(500);
         }
     }
 
@@ -236,7 +241,7 @@ public class CompRobot extends BasicBot
     {
         double straightDist, rightDist, leftDist;
         double straightDistanceTraveled = 0;
-        float stepDistance = 8;
+        float stepDistance = 10;
         float stepPivotAmtDeg = 15;
 
         DistanceSensor usingDistSensor = frontDistSens;
@@ -248,7 +253,8 @@ public class CompRobot extends BasicBot
             {
                 super.stopDriveMotors();
                 break;
-            } else
+            }
+            else
             {
                 linearOpMode.telemetry.addData("Going forward 11", null);
                 driveStraight(stepDistance, .8f);
@@ -264,16 +270,21 @@ public class CompRobot extends BasicBot
                 if (leftDist < lowerDistFromSideWall)
                 {
                     linearOpMode.telemetry.addData("left dist < 4", null);
+                    linearOpMode.sleep(500);
                     pivotenc(-stepPivotAmtDeg, .5f);
                     driveStraight(stepDistance, .5f);
                     straightDistanceTraveled = straightDistanceTraveled + stepDistance;
+                    linearOpMode.sleep(500);
                     pivotenc(stepPivotAmtDeg, .5f);
-                } else if (leftDist > upperDistFromSideWall)
+                }
+                else if (leftDist > upperDistFromSideWall)
                 {
                     linearOpMode.telemetry.addData("left dist > 7", null);
+                    linearOpMode.sleep(500);
                     pivotenc(stepPivotAmtDeg, .5f);
                     driveStraight(stepDistance, .5f);
                     straightDistanceTraveled = straightDistanceTraveled + stepDistance;
+                    linearOpMode.sleep(500);
                     pivotenc(-stepPivotAmtDeg, .5f);
                 } else //need this null zone for logic, this is where it goes straight, do not comment out
                 {
@@ -281,11 +292,13 @@ public class CompRobot extends BasicBot
                     straightDistanceTraveled = straightDistanceTraveled + stepDistance;
                 }
                 linearOpMode.telemetry.update();
+
                 if (straightDistanceTraveled >= maximumDistance)
                 {
                     break;
                 }
             }
+            linearOpMode.sleep(500);
         }
     }
 
@@ -302,7 +315,7 @@ public class CompRobot extends BasicBot
         linearOpMode.sleep(1000);
         leftGrabCRServo.setPower(1);
         rightGrabCRServo.setPower(1);
-        linearOpMode.sleep(2069);
+        linearOpMode.sleep(2000);
 
         initCRServoAndServoPos();
     }

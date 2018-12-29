@@ -12,7 +12,28 @@ public class CompRobotCalibration extends LinearOpMode
     {
         compRobot = new CompRobot(hardwareMap, this);
         waitForStart();
+        compRobot.pivotenc(-25, .7f);
+        while (!gamepad1.a && !isStopRequested())
+        {
 
+        }
+        compRobot.pivotenc(-50, .7f);
+        while (!gamepad1.a && !isStopRequested())
+        {
+
+        }
+        compRobot.pivotenc(-75, .7f);
+        while (!gamepad1.a && !isStopRequested())
+        {
+
+        }
+        compRobot.pivotenc(-100, .7f);
+
+
+
+
+
+        //DRIVESTRAIGHT STUFF
         /*compRobot.driveStraight(50,.8f);
         while (!gamepad1.a && !isStopRequested())
         {
