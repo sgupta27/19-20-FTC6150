@@ -177,17 +177,16 @@ public class CompRobot extends BasicBot
         linearOpMode.telemetry.addData("in hug wall", null);
         linearOpMode.telemetry.addData("front dist= ", getFrontDistance_IN());
         linearOpMode.telemetry.update();
-        linearOpMode.sleep(100);
 
         while (!linearOpMode.isStopRequested())
         {
+            linearOpMode.sleep(500);
             double straightDist = getFrontDistance_IN();
             if (straightDist <= distAwayFromFrontWall)
             {
                 linearOpMode.telemetry.addData("Close Enough", null);
                 linearOpMode.telemetry.addData("front dist= ", straightDist);
                 linearOpMode.telemetry.update();
-                linearOpMode.sleep(500);
                 break;
             }
             linearOpMode.telemetry.addData("Going forward 3", null);
@@ -206,21 +205,17 @@ public class CompRobot extends BasicBot
                 {
                     linearOpMode.telemetry.addData("too Close", rightDist);
                     linearOpMode.telemetry.update();
-                    linearOpMode.sleep(500);
                     pivotenc(stepPivotAmtDeg, .5f);
                     driveStraight(stepDistance, .5f);
                     straightDistanceTraveled = straightDistanceTraveled + stepDistance;
-                    linearOpMode.sleep(500);
                     pivotenc(-stepPivotAmtDeg, .5f);
                 } else if (rightDist > tooFarFromSideWall && rightDist < 80)
                 {
                     linearOpMode.telemetry.addData("too Far", rightDist);
                     linearOpMode.telemetry.update();
-                    linearOpMode.sleep(500);
                     pivotenc(-stepPivotAmtDeg, .5f);
                     driveStraight(stepDistance, .5f);
                     straightDistanceTraveled = straightDistanceTraveled + stepDistance;
-                    linearOpMode.sleep(500);
                     pivotenc(stepPivotAmtDeg, .5f);
                 } else //need this null zone for logic, this is where it goes straight, do not comment out
                 {
@@ -233,7 +228,7 @@ public class CompRobot extends BasicBot
                     break;
                 }
             }
-            linearOpMode.sleep(500);
+            linearOpMode.sleep(300);
         }
     }
 
@@ -248,6 +243,7 @@ public class CompRobot extends BasicBot
 
         while (usingDistSensor.getDistance(DistanceUnit.INCH) > distAwayFromFrontWall && !linearOpMode.isStopRequested())
         {
+            linearOpMode.sleep(500);
             straightDist = usingDistSensor.getDistance(DistanceUnit.INCH);
             if (straightDist < distAwayFromFrontWall + Math.abs(stepDistance))
             {
@@ -270,21 +266,17 @@ public class CompRobot extends BasicBot
                 if (leftDist < lowerDistFromSideWall)
                 {
                     linearOpMode.telemetry.addData("left dist < 4", null);
-                    linearOpMode.sleep(500);
                     pivotenc(-stepPivotAmtDeg, .5f);
                     driveStraight(stepDistance, .5f);
                     straightDistanceTraveled = straightDistanceTraveled + stepDistance;
-                    linearOpMode.sleep(500);
                     pivotenc(stepPivotAmtDeg, .5f);
                 }
                 else if (leftDist > upperDistFromSideWall)
                 {
                     linearOpMode.telemetry.addData("left dist > 7", null);
-                    linearOpMode.sleep(500);
                     pivotenc(stepPivotAmtDeg, .5f);
                     driveStraight(stepDistance, .5f);
                     straightDistanceTraveled = straightDistanceTraveled + stepDistance;
-                    linearOpMode.sleep(500);
                     pivotenc(-stepPivotAmtDeg, .5f);
                 } else //need this null zone for logic, this is where it goes straight, do not comment out
                 {
@@ -312,10 +304,10 @@ public class CompRobot extends BasicBot
     public void deployMarker()
     {
         wristCollectorServo.setPosition(.49);
-        linearOpMode.sleep(1000);
+        linearOpMode.sleep(300);
         leftGrabCRServo.setPower(1);
         rightGrabCRServo.setPower(1);
-        linearOpMode.sleep(2000);
+        linearOpMode.sleep(800);
 
         initCRServoAndServoPos();
     }
