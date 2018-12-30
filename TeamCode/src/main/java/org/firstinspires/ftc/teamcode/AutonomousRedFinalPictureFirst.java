@@ -23,6 +23,7 @@ public class AutonomousRedFinalPictureFirst extends LinearOpMode
         float  yawAngleTurn;
         float distanceTraveled = 0;
         waitForStart();
+        sleep(5000);
         //compRobot.climbDown();
         //sleep(200);
         compRobot.driveStraight(8,.8f);
@@ -69,7 +70,6 @@ public class AutonomousRedFinalPictureFirst extends LinearOpMode
         //make sure that it still runs as intended.
 
         telemetry.addData("Stopped", null);
-        sleep(200);
         compRobot.deployMarker();
         telemetry.update();
         compRobot.driveStraight(-20, .5f);
