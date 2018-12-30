@@ -34,9 +34,9 @@ public class AutonomousRedFinalPictureFirst extends LinearOpMode
             if (frontDist <= 7 + frontSensorDepth)
             break;
             else
-                compRobot.driveStraight(5, .5f);
-                distanceTraveled = distanceTraveled + 5;
-                if (distanceTraveled >= 55)
+                compRobot.driveStraight(10, .5f);
+                distanceTraveled = distanceTraveled + 10;
+                if (distanceTraveled >= 40)
                 {
                     break;
                 }
@@ -64,7 +64,7 @@ public class AutonomousRedFinalPictureFirst extends LinearOpMode
 
             telemetry.update();
         }
-        compRobot.hugWallToRight(4 + rightSensorDepth, 6 + rightSensorDepth, 18, 56);
+        compRobot.hugWallToRight(4 + rightSensorDepth, 8 + rightSensorDepth, 22, 48);
         //The hug wall code in the method is a bit different than the one that was in the original auto file
         //make sure that it still runs as intended.
 
@@ -72,10 +72,10 @@ public class AutonomousRedFinalPictureFirst extends LinearOpMode
         sleep(200);
         compRobot.deployMarker();
         telemetry.update();
-        /*compRobot.driveStraight(-20, .5f);
+        compRobot.driveStraight(-20, .5f);
         compRobot.pivotenc(-230, .8f);
-        compRobot.hugWallToLeft(6 + rightSensorDepth, 9 + rightSensorDepth, 38, 75);
+        compRobot.hugWallToLeft(6 + rightSensorDepth, 11 + rightSensorDepth, 38, 75);
         compRobot.driveStraight(15, .8f); //since the hugwall stops at the crater, this takes robot into crater
-        compRobot.stopDriveMotors();*/
+        compRobot.stopDriveMotors();
     }
 }
