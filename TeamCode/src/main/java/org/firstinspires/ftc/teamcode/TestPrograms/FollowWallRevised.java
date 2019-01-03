@@ -1,11 +1,15 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.TestPrograms;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.ParadeBot;
 
 /**
  * Created by Sahithi and Jeremy
  */
+@Disabled
 @Autonomous(name = "FollowWallRevised", group = "Auto")
 public class FollowWallRevised extends LinearOpMode
 {

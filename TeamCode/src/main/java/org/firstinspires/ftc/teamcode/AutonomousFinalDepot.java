@@ -17,12 +17,12 @@ public class AutonomousFinalDepot extends LinearOpMode
         compRobot = new CompRobot(hardwareMap, this);
         //vuforiaFunctions = new VuforiaFunctions(this, hardwareMap);
         waitForStart();
-        sleep(5000);
-        //compRobot.climbDown();
-        //sleep(750);
+        //sleep(5000);
+        compRobot.climbDown();
+        sleep(750);
         //compRobot.driveStraight(10, .5f);
 
-        compRobot.driveStraight(25, 1);
+        compRobot.driveStraight(25, .8f);
         while (compRobot.getFrontDistSens().getDistance(DistanceUnit.INCH) > 20 && compRobot.getFrontRightDistSens().getDistance(DistanceUnit.INCH) > 20)
         {
             compRobot.driveMotors(.4f, .4f);
@@ -37,7 +37,7 @@ public class AutonomousFinalDepot extends LinearOpMode
         compRobot.pivotenc(9, .5f);
 
         sleep(250);
-        compRobot.hugWallToRight(4 + rightSensorDepth, 8 + rightSensorDepth, 22, 75);
+        compRobot.hugWallToRight(4 + rightSensorDepth, 8 + rightSensorDepth, 22, 67);
         compRobot.driveStraight(6, .8f);
         telemetry.addData("Stopped", null);
         telemetry.update();
