@@ -23,18 +23,18 @@ public class SwitchAutoDepotV1 extends LinearOpMode
         compRobot.climbDown();
         sleep(200);
 
-        if (switchSample = true)
+        if (switchSample)
         {
             compRobot.driveStraight(10, .5f); //adjust distance when integrating code
             //sample
         }
-        if (switchDelay = true) //do we want to have this for the depot program?
+        if (switchDelay) //do we want to have this for the depot program?
         {
             sleep(2000);
         }
-        if (switchDepot = true)
+        if (switchDepot)
         {
-            if (switchSample = false)
+            if (!switchSample)
             {
                 compRobot.driveStraight(10, .5f);
                 compRobot.driveStraight(30, 1);
@@ -58,9 +58,9 @@ public class SwitchAutoDepotV1 extends LinearOpMode
                 compRobot.deployMarker();
             }
         }
-        if (switchCrater = true)
+        if (switchCrater)
         {
-            if (switchDepot = false)
+            if (!switchDepot)
             {
                 compRobot.driveStraight(10, .5f);
                 compRobot.driveStraight(30, 1);
