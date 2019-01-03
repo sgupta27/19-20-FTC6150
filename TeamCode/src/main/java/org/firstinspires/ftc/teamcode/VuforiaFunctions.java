@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.support.annotation.NonNull;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -15,12 +17,16 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
+import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 
 public class VuforiaFunctions
@@ -48,9 +54,7 @@ public class VuforiaFunctions
     public static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     public static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     public static final String LABEL_SILVER_MINERAL = "Silver Mineral";
-
-
-    public final float HALFFIELDLENGTH_MM = 1828.8f;
+    public static final float HALFFIELDLENGTH_MM = 1828.8f;
 
     public VuforiaFunctions(OpMode opMode_In, HardwareMap hardwareMap)
     {
@@ -107,12 +111,21 @@ public class VuforiaFunctions
 
         targetsRoverRuckus.activate();
 
+        if (ClassFactory.getInstance().canCreateTFObjectDetector())
+            initTfod(hardwareMap);
+    }
+
+    private void initTfod(HardwareMap hardwareMap) {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
-        tfod.activate();
+
+        if (tfod != null)
+        {
+            tfod.activate();
+        }
     }
 
     public boolean hasSeenTarget()
@@ -181,16 +194,69 @@ public class VuforiaFunctions
         return currentNameOfTargetSeen;
     }
 
-    public boolean isDetectingFieldObject()
+    public TFObjectDetector getTfod()
     {
-        if (tfod.getUpdatedRecognitions() != null)
-            return false;
-        else
-            return true;
+        return tfod;
     }
 
-    public List<Recognition>  getUpdatedRecognitions()
+    public char getPositionOfGoldInTwoObjects()
     {
-        return tfod.getUpdatedRecognitions();
+        ArrayList<Recognition> recognitions = getTwoClosestRecognitions();
+        if (recognitions != null && recognitions.size() == 2)
+        {
+                for (int i = 0; i < recognitions.size(); i++)
+                {
+                    if(recognitions.get(i).getLabel().equals(LABEL_GOLD_MINERAL))
+                    {
+                        if(i == 0)
+                        {
+                            if(recognitions.get(i).getLeft() > recognitions.get(1).getRight())
+                            {
+                                return 'l';
+                            }
+                            else
+                            {
+                                return 'r';
+                            }
+                        }
+                        else
+                        {
+                            if(recognitions.get(i).getLeft() > recognitions.get(0).getRight())
+                            {
+                                return 'l';
+                            }
+                            else
+                            {
+                                return 'r';
+                            }
+                        }
+                    }
+                }
+        }
+        return '?';
+    }
+
+    private ArrayList<Recognition> getTwoClosestRecognitions()
+    {
+        List<Recognition> allRecs = tfod.getRecognitions();
+        ArrayList<Recognition> closeestRecs = new ArrayList<Recognition>();
+
+        for (int a = 0; a < 2; a++)
+        {
+            Recognition temp = allRecs.get(0);
+            int index = 0;
+            for (int i = 1; i < allRecs.size(); i++)
+            {
+                if (temp.getHeight() > allRecs.get(i).getHeight())
+                {
+                    temp = allRecs.get(i);
+                    index = 0;
+                }
+            }
+            allRecs.remove(index);
+            closeestRecs.add(temp);
+        }
+
+        return closeestRecs;
     }
 }
