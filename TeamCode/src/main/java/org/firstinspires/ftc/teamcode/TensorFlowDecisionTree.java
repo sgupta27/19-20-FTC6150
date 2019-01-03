@@ -19,7 +19,7 @@ public class TensorFlowDecisionTree extends LinearOpMode
 
         while (opModeIsActive())
         {
-            telemetry.addData("POS OF GOLD", vuforiaFunctions.getPositionOfGold());
+            //telemetry.addData("POS OF GOLD", vuforiaFunctions.getPositionOfGold());
             telemetry.update();
         }
     }
