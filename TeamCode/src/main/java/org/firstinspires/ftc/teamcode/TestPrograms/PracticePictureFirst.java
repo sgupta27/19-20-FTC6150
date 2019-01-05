@@ -1,7 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.TestPrograms;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.CompRobot;
+import org.firstinspires.ftc.teamcode.VuforiaFunctions;
+
+@Disabled
 @Autonomous(name = "PracticePictureFirst")
 public class PracticePictureFirst extends LinearOpMode
 {
