@@ -19,7 +19,21 @@ public class TensorFlowDecisionTree extends LinearOpMode
 
         while (opModeIsActive())
         {
-            //telemetry.addData("POS OF GOLD", vuforiaFunctions.getPositionOfGold());
+/*
+            ArrayList<Recognition> closest = vuforiaFunctions.getTwoClosestRecognitions();
+            if(closest != null)
+            {
+                if ( closest.size() != 0)
+                {
+                    for (Recognition temp : closest)
+                    {
+                        telemetry.addData(temp.toString(), null);
+                        telemetry.addData("New line", null);
+                    }
+                }
+            }
+            */
+            telemetry.addData("SEe ", vuforiaFunctions.getPositionOfGoldInTwoObjects());
             telemetry.update();
         }
     }
