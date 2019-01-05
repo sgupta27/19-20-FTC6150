@@ -105,16 +105,22 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         {
             if (!switchDepot)
             {
-                compRobot.driveStraight(48, .8f);
-                compRobot.stopDriveMotors();
+                if (!switchSample)
+                {
+                    compRobot.driveStraight(48, .8f);
+                }
+                else
+                {
+                    compRobot.driveStraight(40, .8f);
+                }
             }
             else
             {
                 compRobot.driveStraight(-44, .5f);
                 compRobot.pivotenc(-230, .8f);
                 compRobot.driveStraight(30,.5f);
-                compRobot.stopDriveMotors();
             }
         }
+        compRobot.stopDriveMotors();
     }
 }
