@@ -115,7 +115,8 @@ public class VuforiaFunctions
             initTfod(hardwareMap);
     }
 
-    private void initTfod(HardwareMap hardwareMap) {
+    private void initTfod(HardwareMap hardwareMap)
+    {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
@@ -202,7 +203,10 @@ public class VuforiaFunctions
     public char getPositionOfGoldInTwoObjects()
     {
         ArrayList<Recognition> recognitions = getTwoClosestRecognitions();
-        if (recognitions != null && recognitions.size() == 2)
+
+        if(recognitions == null || recognitions.size() == 0 || recognitions.size() == 1)
+            return '?';
+        else
         {
                 for (int i = 0; i < recognitions.size(); i++)
                 {
@@ -211,37 +215,38 @@ public class VuforiaFunctions
                         if(i == 0)
                         {
                             if(recognitions.get(i).getLeft() > recognitions.get(1).getRight())
-                            {
-                                return 'l';
-                            }
+                                return 'c';
                             else
-                            {
                                 return 'r';
-                            }
                         }
                         else
                         {
                             if(recognitions.get(i).getLeft() > recognitions.get(0).getRight())
-                            {
-                                return 'l';
-                            }
+                                return 'c';
                             else
-                            {
                                 return 'r';
-                            }
                         }
                     }
                 }
         }
-        return '?';
+        return 'l';
     }
 
-    private ArrayList<Recognition> getTwoClosestRecognitions()
+    public ArrayList<Recognition> getTwoClosestRecognitions()
     {
         List<Recognition> allRecs = tfod.getRecognitions();
         ArrayList<Recognition> closeestRecs = new ArrayList<Recognition>();
 
-        for (int a = 0; a < 2; a++)
+        if (allRecs == null)
+            return null;
+        else if ( allRecs.size() == 0)
+            return null;
+        else if (allRecs.size() == 1)
+        {
+            closeestRecs.add(allRecs.get(0));
+            return closeestRecs;
+        }
+        else if (allRecs.size() >= 2)
         {
             Recognition temp = allRecs.get(0);
             int index = 0;
@@ -250,13 +255,27 @@ public class VuforiaFunctions
                 if (temp.getHeight() > allRecs.get(i).getHeight())
                 {
                     temp = allRecs.get(i);
-                    index = 0;
+                    index = i;
                 }
             }
-            allRecs.remove(index);
             closeestRecs.add(temp);
-        }
+            allRecs.remove(index);
 
-        return closeestRecs;
+            temp = allRecs.get(0);
+            index = 0;
+            for (int i = 0; i < allRecs.size(); i++)
+            {
+                if (temp.getHeight() > allRecs.get(i).getHeight())
+                {
+                    temp = allRecs.get(i);
+                    index = i;
+                }
+            }
+            closeestRecs.add(temp);
+            allRecs.remove(index);
+
+            return closeestRecs;
+        }
+            return null;
     }
 }
