@@ -15,8 +15,9 @@ public class AutonomousFinalDepot extends LinearOpMode
     public void runOpMode()
     {
         char pos = '?';
-        boolean isCenterGold;
-        boolean isRightGold;
+        boolean isCenterGold = false;
+        boolean isRightGold = false;
+        boolean seenSomething = false;
         compRobot = new CompRobot(hardwareMap, this);
         vuforiaFunctions = new VuforiaFunctions(this, hardwareMap);
         waitForStart();
@@ -24,6 +25,7 @@ public class AutonomousFinalDepot extends LinearOpMode
 
         if(vuforiaFunctions.getTfod().getRecognitions().size() == 1)
         {
+            seenSomething = true;
             if(vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
             {
                 isCenterGold = true;
@@ -37,18 +39,20 @@ public class AutonomousFinalDepot extends LinearOpMode
             pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
         }
 
-
-
         compRobot.climbDown();
         compRobot.pivotenc(5, .5f);
 
         if (pos == '?')
         {
             if(vuforiaFunctions.getTfod().getRecognitions() != null)
+                seenSomething = true;
                 if(vuforiaFunctions.getTfod().getRecognitions().size() == 1)
                 {
                     if(vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
+                    {
                         isRightGold = true;
+                        pos = 'r';
+                    }
                     else
                         isRightGold = false;
                 }
@@ -58,12 +62,17 @@ public class AutonomousFinalDepot extends LinearOpMode
                 }
         }
 
-
+        if(seenSomething && pos == '?')
+        {
+            if (!isRightGold && !isCenterGold)
+                pos = 'l';
+        }
 
         telemetry.addData("Will go in ", pos);
         telemetry.addData("Total recognitions ", vuforiaFunctions.getTfod().getRecognitions().size());
         telemetry.addData("2 Closest Recs: ", vuforiaFunctions.getTwoClosestRecognitions());
         telemetry.update();
+
         sleep(1000);
         switch (pos)
         {
