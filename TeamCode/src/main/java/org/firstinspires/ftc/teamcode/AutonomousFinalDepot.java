@@ -49,8 +49,6 @@ public class AutonomousFinalDepot extends LinearOpMode
         telemetry.update();
 
         compRobot.climbDown();
-        compRobot.pivotenc(5, .5f);
-
 
         if (pos == '?')
         {
@@ -116,7 +114,7 @@ public class AutonomousFinalDepot extends LinearOpMode
                 }
                 compRobot.stopDriveMotors();
         }
-        compRobot.deployMarker();
+        //compRobot.deployMarker();
         compRobot.driveStraight(-5, 1);
 
         switch (pos)
