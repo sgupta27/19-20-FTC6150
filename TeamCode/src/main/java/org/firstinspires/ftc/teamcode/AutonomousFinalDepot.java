@@ -89,8 +89,6 @@ public class AutonomousFinalDepot extends LinearOpMode
         }
 
         telemetry.addData("Pos: ", pos);
-        telemetry.addData("Total recognitions ", vuforiaFunctions.getTfod().getRecognitions().size());
-        telemetry.addData("2 Closest Recs: ", vuforiaFunctions.getTwoClosestRecognitions());
         telemetry.update();
 
         sleep(1000);
