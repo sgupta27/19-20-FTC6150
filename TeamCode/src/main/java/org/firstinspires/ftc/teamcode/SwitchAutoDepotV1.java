@@ -19,7 +19,6 @@ public class SwitchAutoDepotV1 extends LinearOpMode
         vuforiaFunctions = new VuforiaFunctions(this, hardwareMap);
         //boolean switchSample = compRobot.getSwitchSample().getState();
         boolean switchSample = false;
-        boolean switchDelay = false;
         boolean switchDepot = true;
         boolean switchCrater = true;
         /*boolean switchDepot = compRobot.getSwitchDepot().getState();
@@ -32,10 +31,6 @@ public class SwitchAutoDepotV1 extends LinearOpMode
         {
             compRobot.driveStraight(10, .5f); //adjust distance when integrating code
             //sample
-        }
-        if (switchDelay)
-        {
-            sleep(2000);
         }
         if (switchDepot)
         {
@@ -74,7 +69,7 @@ public class SwitchAutoDepotV1 extends LinearOpMode
 
             compRobot.driveStraight(16, .6f);
 
-            compRobot.pivotenc(-25, .5f); //9 works but its far from the wall
+            compRobot.pivotenc(-20, .5f); //9 works but its far from the wall
 
             sleep(250);
         }
