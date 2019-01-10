@@ -17,10 +17,13 @@ public class SwitchAutoDepotV1 extends LinearOpMode
     {
         compRobot = new CompRobot(hardwareMap, this);
         vuforiaFunctions = new VuforiaFunctions(this, hardwareMap);
-        boolean switchSample = compRobot.getSwitchSample().getState();
-        boolean switchDelay = compRobot.getSwitchDelay().getState();
-        boolean switchDepot = compRobot.getSwitchDepot().getState();
-        boolean switchCrater = compRobot.getSwitchCrater().getState();
+        //boolean switchSample = compRobot.getSwitchSample().getState();
+        boolean switchSample = false;
+        boolean switchDelay = false;
+        boolean switchDepot = true;
+        boolean switchCrater = true;
+        /*boolean switchDepot = compRobot.getSwitchDepot().getState();
+        boolean switchCrater = compRobot.getSwitchCrater().getState(); */
         waitForStart();
         compRobot.climbDown();
         sleep(100);
@@ -30,7 +33,7 @@ public class SwitchAutoDepotV1 extends LinearOpMode
             compRobot.driveStraight(10, .5f); //adjust distance when integrating code
             //sample
         }
-        if (switchDelay) //do we want to have this for the depot program?
+        if (switchDelay)
         {
             sleep(2000);
         }
@@ -71,12 +74,13 @@ public class SwitchAutoDepotV1 extends LinearOpMode
 
             compRobot.driveStraight(16, .6f);
 
-            compRobot.pivotenc(9, .5f);
+            compRobot.pivotenc(-25, .5f); //9 works but its far from the wall
 
             sleep(250);
         }
-        compRobot.hugWallToRight(4 + rightSensorDepth, 8 + rightSensorDepth, 22, 60);
-        compRobot.driveStraight(6, .8f);
+        //hugwall stil is struggling to turn back!! fix this and figure out why the 25 degree turn isn't 25 degrees
+        compRobot.hugWallToRight(3 + rightSensorDepth, 7 + rightSensorDepth, 22, 48);
+        compRobot.driveStraight(24, .8f);
         telemetry.addData("Stopped", null);
         telemetry.update();
 
