@@ -34,8 +34,8 @@ public class CompRobot extends BasicBot
         initSensors(hardwareMap);
         linearOpMode = linearOpMode_In;
         initMotorsAndMechParts(hardwareMap);
-        //initAutoSwitches(hardwareMap);
-        //Uncomment above as soon as switches are on robot and are configged
+        initAutoSwitches(hardwareMap);
+        //Uncomment above as soon as switches are on robot and are configured
     }
 
     private void initSensors(HardwareMap hardwareMap)

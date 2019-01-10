@@ -22,30 +22,59 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         float rightSensorDepth = 2;
         float  yawAngleTurn;
         float distanceTraveled = 0;
-        /*boolean switchSample = compRobot.getSwitchSample().getState();
-        boolean switchDelay = compRobot.getSwitchDelay().getState();
-        boolean switchDepot = compRobot.getSwitchDepot().getState();
-        boolean switchCrater = compRobot.getSwitchCrater().getState();*/
         boolean switchSample = false;
         boolean switchDelay = false;
-        boolean switchDepot = true;
-        boolean switchCrater = true;
+        //boolean switchSample = compRobot.getSwitchSample().getState();
+        //boolean switchDelay = compRobot.getSwitchDelay().getState();
+        boolean switchDepot = compRobot.getSwitchDepot().getState();
+        boolean switchCrater = compRobot.getSwitchCrater().getState();
         waitForStart();
-        compRobot.climbDown();
+        //compRobot.climbDown();
         sleep(100);
 
         if (switchSample)
         {
-            compRobot.driveStraight(8, .8f); //adjust distance when integrating code
             //sample
+            if (switchDepot) //gonna need to edit these values when testing
+            {
+                switch (pos)
+                {
+                    case 'l':
+                    {
+                        compRobot.driveStraight(-10,.8f);
+                        compRobot.pivotenc(60,.5f);
+                        compRobot.driveStraight(-20,.8f);
+                        compRobot.pivotenc(-35,.5f);
+                    }
+                    case 'c':
+                    {
+                        compRobot.driveStraight(-25,.8f);
+                    }
+                    case 'r':
+                    {
+                        compRobot.driveStraight(-10,.8f);
+                        compRobot.pivotenc(-60,.5f);
+                        compRobot.driveStraight(-20,.8f);
+                        compRobot.pivotenc(35,.5f);
+                    }
+                }
+            }
+            else
+            {
+                compRobot.driveStraight(25,.8f);
+            }
         }
+
         if (switchDelay)
         {
+            compRobot.driveStraight(8, .8f); //JUST to test
             sleep(2000);
         }
         if (switchDepot)
         {
-            if (!switchSample)
+            compRobot.driveStraight(-8, .8f); //just to test switches
+        }
+            /*(if (!switchSample)
             {
                 compRobot.driveStraight(8, .8f);
             }
@@ -100,10 +129,11 @@ public class SwitchAutoPictureV1 extends LinearOpMode
                 sleep(100);
                 compRobot.deployMarker();
                 telemetry.update();
-        }
+        } */
         if (switchCrater)
         {
-            if (!switchDepot)
+            compRobot.pivotenc(-90,.6f); //testing switches
+            /*if (!switchDepot)
             {
                 if (!switchSample)
                 {
@@ -119,7 +149,7 @@ public class SwitchAutoPictureV1 extends LinearOpMode
                 compRobot.driveStraight(-44, .5f);
                 compRobot.pivotenc(-230, .8f);
                 compRobot.driveStraight(30,.5f);
-            }
+            }*/
         }
         compRobot.stopDriveMotors();
     }
