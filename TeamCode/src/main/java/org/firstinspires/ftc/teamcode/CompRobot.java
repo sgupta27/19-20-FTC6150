@@ -278,7 +278,8 @@ public class CompRobot extends BasicBot
                     driveStraight(stepDistance, .5f);
                     straightDistanceTraveled = straightDistanceTraveled + stepDistance;
                     pivotenc(-stepPivotAmtDeg, .5f);
-                } else //need this null zone for logic, this is where it goes straight, do not comment out
+                }
+                else //need this null zone for logic, this is where it goes straight, do not comment out
                 {
                     driveStraight(stepDistance, .8f);
                     straightDistanceTraveled = straightDistanceTraveled + stepDistance;
@@ -317,7 +318,10 @@ public class CompRobot extends BasicBot
         climberMotor.setMode(DcMotorImplEx.RunMode.STOP_AND_RESET_ENCODER);
         climberMotor.setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
         climberMotor.setPower(-1);
-        while (climberMotor.getCurrentPosition() > -16500 && !linearOpMode.isStopRequested())
+
+        long wantedTime = System.currentTimeMillis() + 5000;
+
+        while (climberMotor.getCurrentPosition() > -16500 && !linearOpMode.isStopRequested() && System.currentTimeMillis() <= wantedTime)
         {
 
         }
@@ -329,7 +333,9 @@ public class CompRobot extends BasicBot
         climberMotor.setMode(DcMotorImplEx.RunMode.STOP_AND_RESET_ENCODER);
         climberMotor.setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
         climberMotor.setPower(1);
-        while (climberMotor.getCurrentPosition() < 16500 && !linearOpMode.isStopRequested())
+
+        long wantedTime = System.currentTimeMillis() + 5000;
+        while (climberMotor.getCurrentPosition() < 16500 && !linearOpMode.isStopRequested() && System.currentTimeMillis() <= wantedTime)
         {
 
         }

@@ -123,7 +123,10 @@ public class AutonomousFinalDepot extends LinearOpMode
                 compRobot.pivotenc(165, .5f);
                 break;
             case 'r':
-                compRobot.pivotenc(145, .5f);
+                compRobot.pivotenc(80, .5f);
+                compRobot.driveStraight(8, .5f);
+                compRobot.pivotenc(50, .5f);
+                break;
             default:
                 compRobot.pivotenc(155, .5f);
                 compRobot.driveStraight(16, .6f);
@@ -133,9 +136,7 @@ public class AutonomousFinalDepot extends LinearOpMode
         compRobot.driveStraight(6, .8f);
 
         while (!isStopRequested())
-        {
             compRobot.stopDriveMotors();
-        }
     }
 }
 
