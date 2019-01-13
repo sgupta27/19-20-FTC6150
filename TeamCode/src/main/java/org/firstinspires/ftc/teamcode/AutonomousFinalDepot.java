@@ -17,7 +17,8 @@ public class AutonomousFinalDepot extends LinearOpMode
         char pos = '?';
         boolean isCenterGold = false;
         boolean isRightGold = false;
-        boolean seenSomething = false;
+        boolean seenAtHang = false;
+        boolean seenAtBott = false;
         compRobot = new CompRobot(hardwareMap, this);
         vuforiaFunctions = new VuforiaFunctions(this, hardwareMap);
         waitForStart();
@@ -25,52 +26,67 @@ public class AutonomousFinalDepot extends LinearOpMode
 
         if(vuforiaFunctions.getTfod().getRecognitions().size() == 1)
         {
-            seenSomething = true;
+            telemetry.addData("SAW 1 OBJECT", null);
+            seenAtHang = true;
             if(vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
             {
+                telemetry.addData("SAW GOLD", null);
                 isCenterGold = true;
                 pos = 'c';
             }
             else
+            {
                 isCenterGold = false;
+                telemetry.addData("Center no gold", null);
+            }
         }
         else if(vuforiaFunctions.getTfod().getRecognitions().size() >= 2)
         {
+            telemetry.addData("SAW 2", null);
             pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
         }
+        telemetry.addData("Pos: ", pos);
+        telemetry.update();
 
         compRobot.climbDown();
-        compRobot.pivotenc(5, .5f);
 
         if (pos == '?')
         {
+            telemetry.addData("In ? Block", null);
             if(vuforiaFunctions.getTfod().getRecognitions() != null)
-                seenSomething = true;
-                if(vuforiaFunctions.getTfod().getRecognitions().size() == 1)
+            {
+                if (vuforiaFunctions.getTfod().getRecognitions().size() == 1)
                 {
-                    if(vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
+                    telemetry.addData("See 1 object", null);
+                    seenAtBott = true;
+                    if (vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
                     {
                         isRightGold = true;
                         pos = 'r';
-                    }
-                    else
+                    } else
                         isRightGold = false;
                 }
                 else if (vuforiaFunctions.getTfod().getRecognitions().size() >= 2)
                 {
+                    telemetry.addData("See 2", null);
                     pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
                 }
+                else
+                {
+                    telemetry.addData("See none", null);
+                }
+            }
+            else
+                telemetry.addData("See nothing", null);
         }
 
-        if(seenSomething && pos == '?')
+        if(seenAtBott && seenAtHang && pos == '?')
         {
             if (!isRightGold && !isCenterGold)
                 pos = 'l';
         }
 
-        telemetry.addData("Will go in ", pos);
-        telemetry.addData("Total recognitions ", vuforiaFunctions.getTfod().getRecognitions().size());
-        telemetry.addData("2 Closest Recs: ", vuforiaFunctions.getTwoClosestRecognitions());
+        telemetry.addData("Pos: ", pos);
         telemetry.update();
 
         sleep(1000);
@@ -98,7 +114,7 @@ public class AutonomousFinalDepot extends LinearOpMode
                 }
                 compRobot.stopDriveMotors();
         }
-        compRobot.deployMarker();
+        //compRobot.deployMarker();
         compRobot.driveStraight(-5, 1);
 
         switch (pos)
@@ -113,7 +129,6 @@ public class AutonomousFinalDepot extends LinearOpMode
                 compRobot.driveStraight(16, .6f);
                 compRobot.pivotenc(9, .5f);
         }
-
         compRobot.hugWallToRight(4 + rightSensorDepth, 8 + rightSensorDepth, 22, 60);
         compRobot.driveStraight(6, .8f);
 
