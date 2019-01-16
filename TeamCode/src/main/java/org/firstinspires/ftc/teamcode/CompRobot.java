@@ -34,8 +34,8 @@ public class CompRobot extends BasicBot
         initSensors(hardwareMap);
         linearOpMode = linearOpMode_In;
         initMotorsAndMechParts(hardwareMap);
-        //initAutoSwitches(hardwareMap);
-        //Uncomment above as soon as switches are on robot and are configged
+        initAutoSwitches(hardwareMap);
+        //Uncomment above as soon as switches are on robot and are configured
     }
 
     private void initSensors(HardwareMap hardwareMap)
@@ -319,9 +319,9 @@ public class CompRobot extends BasicBot
         climberMotor.setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
         climberMotor.setPower(-1);
 
-        long wantedTime = System.currentTimeMillis() + 5000;
+        long wantedTime = System.currentTimeMillis() + 6000;
 
-        while (climberMotor.getCurrentPosition() > -16500 && !linearOpMode.isStopRequested() && System.currentTimeMillis() <= wantedTime)
+        while (climberMotor.getCurrentPosition() > -16550 && !linearOpMode.isStopRequested() && System.currentTimeMillis() <= wantedTime)
         {
 
         }
