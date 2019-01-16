@@ -22,6 +22,7 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         float rightSensorDepth = 2;
         float  yawAngleTurn;
         float distanceTraveled = 0;
+        char pos = '?';
         boolean switchSample = false;
         boolean switchDelay = false;
         //boolean switchSample = compRobot.getSwitchSample().getState();
@@ -29,13 +30,14 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         boolean switchDepot = compRobot.getSwitchDepot().getState();
         boolean switchCrater = compRobot.getSwitchCrater().getState();
         waitForStart();
-        //compRobot.climbDown();
+        compRobot.climbDown();
         sleep(100);
 
         if (switchSample)
         {
             //sample
-            if (switchDepot) //gonna need to edit these values when testing
+            compRobot.driveStraight(5,.8f);
+            /*if (switchDepot) //gonna need to edit these values when testing
             {
                 switch (pos)
                 {
@@ -62,7 +64,7 @@ public class SwitchAutoPictureV1 extends LinearOpMode
             else
             {
                 compRobot.driveStraight(25,.8f);
-            }
+            }*/
         }
 
         if (switchDelay)

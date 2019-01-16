@@ -10,7 +10,7 @@ public class SwitchAutoDepotV1 extends LinearOpMode
 {
     CompRobot compRobot;
     VuforiaFunctions vuforiaFunctions;
-    private float rightSensorDepth = 2;
+    private float rightSensorDepth = .5f;
     private float frontSensorDepth = 2;
 
     public void runOpMode()
@@ -168,12 +168,12 @@ public class SwitchAutoDepotV1 extends LinearOpMode
 
                     compRobot.driveStraight(16, .6f);
 
-                    compRobot.pivotenc(-20, .5f); //9 works but its far from the wall
+                    compRobot.pivotenc(-25, .5f); //9 works but its far from the wall
 
                     sleep(250);
                 }
                 //hugwall stil is struggling to turn back!! fix this and figure out why the 25 degree turn isn't 25 degrees
-                compRobot.hugWallToRight(3 + rightSensorDepth, 7 + rightSensorDepth, 22, 48);
+                compRobot.hugWallToRight(3 + rightSensorDepth, 5 + rightSensorDepth, 22, 48);
                 compRobot.driveStraight(24, .8f);
                 telemetry.addData("Stopped", null);
                 telemetry.update();
