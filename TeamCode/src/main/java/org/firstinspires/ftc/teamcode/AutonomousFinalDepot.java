@@ -10,7 +10,7 @@ public class AutonomousFinalDepot extends LinearOpMode
 {
     private CompRobot compRobot;
     VuforiaFunctions vuforiaFunctions;
-    private float rightSensorDepth = 2;
+    private float rightSensorDepth = .5f;
 
     public void runOpMode()
     {
