@@ -4,17 +4,17 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "TestServoQuickBallPusherTeleOp", group = "Test")
-public class QuickBallPusherTeleOp extends OpMode
+@TeleOp(name = "TestSamplingServo", group = "Test")
+public class TestSamplingServo extends OpMode
 {
-    
     Servo servo;
     double servoPos = 0;
     @Override
     public void init()
     {
         servo = hardwareMap.servo.get("SamplingServo");
-        servo.setDirection(Servo.Direction.FORWARD);
+        servo.setDirection(Servo.Direction.REVERSE);
+        servo.setPosition(servoPos);
     }
 
     @Override
