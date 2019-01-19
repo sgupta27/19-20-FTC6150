@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 /**
  * Created by Sahithi Thumuluri on 12/24/18.
  */
@@ -23,144 +25,197 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         float  yawAngleTurn;
         float distanceTraveled = 0;
         char pos = '?';
-        //boolean switchSample = false;
-        //boolean switchDelay = false;
-        boolean switchSample = compRobot.getSwitchSample().getState();
-        boolean switchDelay = compRobot.getSwitchDelay().getState();
-        boolean switchDepot = compRobot.getSwitchDepot().getState();
-        //boolean switchCrater = compRobot.getSwitchCrater().getState();
-        //boolean switchDummy = compRobot.getSwitchCrater().getState();
+        boolean isCenterGold = false;
+        boolean isRightGold = false;
+        boolean seenAtHang = false;
+        boolean seenAtBott = false;
+        boolean switchDepot = compRobot.getSwitchDepot();
+        boolean switchCrater = compRobot.getSwitchCrater();
 
         waitForStart();
         //compRobot.climbDown();
         sleep(100);
 
-        if (switchSample)
+        if(vuforiaFunctions.getTfod().getRecognitions().size() == 1)
         {
-            //sample
-            compRobot.driveStraight(5,.8f);
-            /*if (switchDepot) //gonna need to edit these values when testing
+            telemetry.addData("SAW 1 OBJECT", null);
+            seenAtHang = true;
+            if(vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
             {
-                switch (pos)
-                {
-                    case 'l':
-                    {
-                        compRobot.driveStraight(-10,.8f);
-                        compRobot.pivotenc(60,.5f);
-                        compRobot.driveStraight(-20,.8f);
-                        compRobot.pivotenc(-35,.5f);
-                    }
-                    case 'c':
-                    {
-                        compRobot.driveStraight(-25,.8f);
-                    }
-                    case 'r':
-                    {
-                        compRobot.driveStraight(-10,.8f);
-                        compRobot.pivotenc(-60,.5f);
-                        compRobot.driveStraight(-20,.8f);
-                        compRobot.pivotenc(35,.5f);
-                    }
-                }
+                telemetry.addData("SAW GOLD", null);
+                isCenterGold = true;
+                pos = 'c';
             }
             else
             {
-                compRobot.driveStraight(25,.8f);
-            }*/
-        }
-
-        if (switchDelay)
-        {
-            compRobot.pivotenc(90,.6f); //JUST to test
-            //sleep(2000);
-        }
-        if (switchDepot)
-        {
-            compRobot.driveStraight(-8, .8f); //just to test switches
-        }
-            /*(if (!switchSample)
-            {
-                compRobot.driveStraight(8, .8f);
+                isCenterGold = false;
+                telemetry.addData("Center no gold", null);
             }
-                compRobot.pivotenc(85, .8f); //100 worked about 2/3 of the time
+        }
+        else if(vuforiaFunctions.getTfod().getRecognitions().size() >= 2)
+        {
+            telemetry.addData("SAW 2", null);
+            pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
+        }
+        telemetry.addData("Pos: ", pos);
+        telemetry.update();
 
-                while (true)
-                {
-                    double frontDist = compRobot.getFrontDistance_IN();
-                    if (frontDist <= 7 + frontSensorDepth)
-                        break;
-                    else
-                        compRobot.driveStraight(10, .5f);
-                    distanceTraveled = distanceTraveled + 10 ;
-                    if (distanceTraveled >= 40)
-                    {
-                        break;
-                    }
-                }
-                compRobot.stopDriveMotors();
-                {
-                    if (vuforiaFunctions.hasSeenTarget())
-                    {
-                        telemetry.addData(vuforiaFunctions.getCurrentNameOfTargetSeen(), null);
-                        telemetry.addData("X (in): ", vuforiaFunctions.getXPosIn());
-                        telemetry.addData("Y (in): ", vuforiaFunctions.getYPosIn());
-                        telemetry.addData("X (ft): ", vuforiaFunctions.getXPosIn() / 12f);
-                        telemetry.addData("Y (ft): ", vuforiaFunctions.getYPosIn() / 12f);
-                        telemetry.addData("YAW ", vuforiaFunctions.getYawDeg());
-                        telemetry.update();
-                        sleep(100);
-                        yawAngle = vuforiaFunctions.getYawDeg();
-                        if (yawAngle < 0)
-                        {
-                            yawAngle = 180 + yawAngle;
-                        }
-                        yawAngleTurn = 100 - yawAngle;
-                        compRobot.pivotenc(yawAngleTurn, .8f);
-                    }
-                    else
-                    {
-                        telemetry.addData("Such target is not in my sight!", null);
-                        compRobot.pivotenc(45, .8f);
-                    }
+        compRobot.climbDown();
 
-                    telemetry.update();
-                }
-                compRobot.hugWallToRight(3 + rightSensorDepth, 7 + rightSensorDepth, 22, 48);
-                //The hug wall code in the method is a bit different than the one that was in the original auto file
-                //make sure that it still runs as intended.
-
-                telemetry.addData("Stopped", null);
-                sleep(100);
-                compRobot.deployMarker();
-                telemetry.update();
-        } */
-        //if (switchCrater)
-        //{
-        //    compRobot.pivotenc(-90, .6f); //testing switches
-        //}
-            /*if (!switchDepot)
+        if (pos == '?')
+        {
+            telemetry.addData("In ? Block", null);
+            if(vuforiaFunctions.getTfod().getRecognitions() != null)
             {
-                if (!switchSample)
+                if (vuforiaFunctions.getTfod().getRecognitions().size() == 1)
                 {
-                    compRobot.driveStraight(48, .8f);
+                    telemetry.addData("See 1 object", null);
+                    seenAtBott = true;
+                    if (vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
+                    {
+                        isRightGold = true;
+                        pos = 'r';
+                    } else
+                        isRightGold = false;
+                }
+                else if (vuforiaFunctions.getTfod().getRecognitions().size() >= 2)
+                {
+                    telemetry.addData("See 2", null);
+                    pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
                 }
                 else
                 {
-                    compRobot.driveStraight(40, .8f);
+                    telemetry.addData("See none", null);
                 }
             }
             else
-            {
-                compRobot.driveStraight(-44, .5f);
-                compRobot.pivotenc(-230, .8f);
-                compRobot.driveStraight(30,.5f);
-            }*/
-
-/*        if (switchDummy)
-        {
-            compRobot.pivotenc(200, .5f);
+                telemetry.addData("See nothing", null);
         }
+
+        if(seenAtBott && seenAtHang && pos == '?')
+        {
+            if (!isRightGold && !isCenterGold)
+                pos = 'l';
+        }
+
+        telemetry.addData("Pos: ", pos);
+        telemetry.update();
+
+        sleep(100);
+        switch (pos)
+        {
+            case 'l':
+                compRobot.driveStraight(4, .7f);
+                compRobot.pivotenc(35, .5f);
+                compRobot.driveStraight(20, .7f);
+                compRobot.pivotenc(-60, .5f);
+                compRobot.driveStraight(10, .7f);
+                break;
+            case 'r':
+                compRobot.driveStraight(4, .7f);
+                compRobot.pivotenc(-35, .5f);
+                compRobot.driveStraight(20, .7f);
+                compRobot.pivotenc(60, .5f);
+                compRobot.driveStraight(10, .7f);
+                break;
+            default:
+                compRobot.driveStraight(25, .8f);
+                while (compRobot.getFrontDistSens().getDistance(DistanceUnit.INCH) > 18 && compRobot.getFrontRightDistSens().getDistance(DistanceUnit.INCH) > 18)
+                {
+                    compRobot.driveMotors(.4f, .4f);
+                }
+                compRobot.stopDriveMotors();
+        }
+
+        if (switchDepot) //gonna need to edit these values when testing
+        {
+            switch (pos)
+            {
+                case 'l':
+                {
+                    compRobot.driveStraight(-10, .8f);
+                    compRobot.pivotenc(60, .5f);
+                    compRobot.driveStraight(-20, .8f);
+                    compRobot.pivotenc(-35, .5f);
+                }
+                case 'c':
+                {
+                    compRobot.driveStraight(-25, .8f);
+                }
+                case 'r':
+                {
+                    compRobot.driveStraight(-10, .8f);
+                    compRobot.pivotenc(-60, .5f);
+                    compRobot.driveStraight(-20, .8f);
+                    compRobot.pivotenc(35, .5f);
+                }
+            }
+            compRobot.driveStraight(8, .8f);
+            compRobot.pivotenc(85, .8f); //100 worked about 2/3 of the time
+
+            while (true)
+            {
+                double frontDist = compRobot.getFrontDistance_IN();
+                if (frontDist <= 7 + frontSensorDepth)
+                    break;
+                else
+                    compRobot.driveStraight(10, .5f);
+                distanceTraveled = distanceTraveled + 10;
+                if (distanceTraveled >= 40)
+                {
+                    break;
+                }
+            }
+            compRobot.stopDriveMotors();
+            {
+                if (vuforiaFunctions.hasSeenTarget())
+                {
+                    telemetry.addData(vuforiaFunctions.getCurrentNameOfTargetSeen(), null);
+                    telemetry.addData("X (in): ", vuforiaFunctions.getXPosIn());
+                    telemetry.addData("Y (in): ", vuforiaFunctions.getYPosIn());
+                    telemetry.addData("X (ft): ", vuforiaFunctions.getXPosIn() / 12f);
+                    telemetry.addData("Y (ft): ", vuforiaFunctions.getYPosIn() / 12f);
+                    telemetry.addData("YAW ", vuforiaFunctions.getYawDeg());
+                    telemetry.update();
+                    sleep(100);
+                    yawAngle = vuforiaFunctions.getYawDeg();
+                    if (yawAngle < 0)
+                    {
+                        yawAngle = 180 + yawAngle;
+                    }
+                    yawAngleTurn = 100 - yawAngle;
+                    compRobot.pivotenc(yawAngleTurn, .8f);
+                } else
+                {
+                    telemetry.addData("Such target is not in my sight!", null);
+                    compRobot.pivotenc(45, .8f);
+                }
+
+                telemetry.update();
+            }
+            compRobot.hugWallToRight(3 + rightSensorDepth, 7 + rightSensorDepth, 22, 48);
+            telemetry.addData("Stopped", null);
+            sleep(100);
+            compRobot.deployMarker();
+            telemetry.update();
+        }
+
+        if (switchCrater)
+        {
+            if (!switchDepot)
+            {
+                compRobot.driveStraight(24,.8f);
+            }
+            else
+            {
+                compRobot.driveStraight(-20, .5f);
+                compRobot.pivotenc(-180, .8f);
+                compRobot.hugWallToLeft(3 + rightSensorDepth, 7 + rightSensorDepth, 22, 65);
+                compRobot.driveStraight(15, .8f); //since the hugwall stops at the crater, this takes robot into crater
+                compRobot.stopDriveMotors();
+            }
+        }
+
         compRobot.stopDriveMotors();
-        */
     }
 }

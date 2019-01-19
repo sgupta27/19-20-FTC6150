@@ -20,7 +20,8 @@ public class CompRobot extends BasicBot
     private DcMotorImplEx collectorPivoterMotor, collectorLifterMotor, climberMotor;
     private Servo wristCollectorServo;
     private CRServo rightGrabCRServo, leftGrabCRServo;
-    private DigitalChannel switchSample, switchDepot, switchDummy, switchDelay;
+    private DigitalChannel switchSample, switchDepot, switchCrater, switchDelay;
+    //note: rightGrabCRServo is now used for paddles on water mill
 
     public CompRobot(HardwareMap hardwareMap)
     {
@@ -52,8 +53,8 @@ public class CompRobot extends BasicBot
         switchSample.setMode(DigitalChannel.Mode.INPUT);
         switchDepot = hardwareMap.digitalChannel.get("switchDepot");
         switchDepot.setMode(DigitalChannel.Mode.INPUT);
-        switchDummy = hardwareMap.digitalChannel.get("switchDummy");
-        switchDummy.setMode(DigitalChannel.Mode.INPUT);
+        switchCrater = hardwareMap.digitalChannel.get("switchCrater");
+        switchCrater.setMode(DigitalChannel.Mode.INPUT);
         switchDelay = hardwareMap.digitalChannel.get("switchSample");
         switchDelay.setMode(DigitalChannel.Mode.INPUT);
 
@@ -373,14 +374,14 @@ public class CompRobot extends BasicBot
         return switchSample;
     }
 
-    public DigitalChannel getSwitchDepot()
+    public boolean getSwitchDepot()
     {
         return switchDepot;
     }
 
-    public DigitalChannel getSwitchDummy()
+    public boolean getSwitchCrater()
     {
-        return switchDummy;
+        return switchCrater;
     }
 
     public DigitalChannel getSwitchDelay()
