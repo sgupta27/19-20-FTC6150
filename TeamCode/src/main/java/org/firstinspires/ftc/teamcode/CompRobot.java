@@ -18,7 +18,7 @@ public class CompRobot extends BasicBot
 
     private DistanceSensor frontDistSens, rightDistSens, leftDistSens;
     private DcMotorImplEx collectorPivoterMotor, collectorLifterMotor, climberMotor;
-    private Servo wristCollectorServo;
+    private Servo wristCollectorServo, samplingServo;
     private CRServo rightGrabCRServo, leftGrabCRServo;
     private DigitalChannel switchSample, switchDepot, switchCrater, switchDelay;
 
@@ -70,6 +70,10 @@ public class CompRobot extends BasicBot
 
         leftGrabCRServo = hardwareMap.crservo.get("leftGrabCRServo");
         leftGrabCRServo.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        samplingServo = hardwareMap.servo.get("samplingServo");
+        samplingServo.setDirection(Servo.Direction.REVERSE);
+        samplerUp();
 
         initCRServoAndServoPos();
 
@@ -340,6 +344,16 @@ public class CompRobot extends BasicBot
 
         }
         climberMotor.setPower(0);
+    }
+
+    public void samplerUp()
+    {
+        samplingServo.setPosition(.78);
+    }
+
+    public void samplerDown()
+    {
+        samplingServo.setPosition(1);
     }
 
     public void setGrabberWheelPower(double pow)
