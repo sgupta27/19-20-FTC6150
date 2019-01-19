@@ -17,8 +17,8 @@ public class TestSwitches extends LinearOpMode
         compRobot = new CompRobot(hardwareMap, this);
         boolean switchSample = compRobot.getSwitchSample().getState();
         boolean switchDelay = compRobot.getSwitchDelay().getState();
-        boolean switchDepot = compRobot.getSwitchDepot().getState();
-        boolean switchCrater = compRobot.getSwitchCrater().getState();
+        boolean switchDepot = compRobot.getSwitchDepot();
+        boolean switchCrater = compRobot.getSwitchCrater();
         //boolean switchDummy = compRobot.getSwitchDummy().getState();
 
         telemetry.addData("sample switch",switchSample);
