@@ -23,14 +23,16 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         float  yawAngleTurn;
         float distanceTraveled = 0;
         char pos = '?';
-        boolean switchSample = false;
-        boolean switchDelay = false;
-        //boolean switchSample = compRobot.getSwitchSample().getState();
-        //boolean switchDelay = compRobot.getSwitchDelay().getState();
+        //boolean switchSample = false;
+        //boolean switchDelay = false;
+        boolean switchSample = compRobot.getSwitchSample().getState();
+        boolean switchDelay = compRobot.getSwitchDelay().getState();
         boolean switchDepot = compRobot.getSwitchDepot().getState();
-        boolean switchCrater = compRobot.getSwitchCrater().getState();
+        //boolean switchCrater = compRobot.getSwitchCrater().getState();
+        //boolean switchDummy = compRobot.getSwitchCrater().getState();
+
         waitForStart();
-        compRobot.climbDown();
+        //compRobot.climbDown();
         sleep(100);
 
         if (switchSample)
@@ -69,8 +71,8 @@ public class SwitchAutoPictureV1 extends LinearOpMode
 
         if (switchDelay)
         {
-            compRobot.driveStraight(8, .8f); //JUST to test
-            sleep(2000);
+            compRobot.pivotenc(90,.6f); //JUST to test
+            //sleep(2000);
         }
         if (switchDepot)
         {
@@ -132,9 +134,10 @@ public class SwitchAutoPictureV1 extends LinearOpMode
                 compRobot.deployMarker();
                 telemetry.update();
         } */
-        if (switchCrater)
-        {
-            compRobot.pivotenc(-90,.6f); //testing switches
+        //if (switchCrater)
+        //{
+        //    compRobot.pivotenc(-90, .6f); //testing switches
+        //}
             /*if (!switchDepot)
             {
                 if (!switchSample)
@@ -152,7 +155,12 @@ public class SwitchAutoPictureV1 extends LinearOpMode
                 compRobot.pivotenc(-230, .8f);
                 compRobot.driveStraight(30,.5f);
             }*/
+
+/*        if (switchDummy)
+        {
+            compRobot.pivotenc(200, .5f);
         }
         compRobot.stopDriveMotors();
+        */
     }
 }
