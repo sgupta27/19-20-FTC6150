@@ -28,13 +28,19 @@ public class CompTeleV1 extends OpMode
         telemetry.addData("Left Encod Ct: ", compRobot.getDriveLeftOne().getCurrentPosition());
         compRobot.driveMotors(-gamepad1.left_stick_y, -gamepad1.right_stick_y);
 
+
         // control the motor for climbing
         compRobot.getClimberMotor().setPower(gamepad1.right_trigger-gamepad1.left_trigger);
         telemetry.addData("CLimbMotorPow: ", gamepad1.right_trigger-gamepad1.left_trigger);
         telemetry.addData("ClimbMotorEnc: ", compRobot.getClimberMotor().getCurrentPosition());
 
-        //"Presets" For climbing
+        if(gamepad1.y)
+        {
+            compRobot.samplerUp();
+        }
 
+        //"Presets" For climbing
+        
         //Gamepad 2 -- Attachments
 
         //The grabber wheel stuff, AKA the mineral Ejector

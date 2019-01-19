@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class TestSamplingServo extends OpMode
 {
     Servo servo;
-    double servoPos = 0;
+    double servoPos = .78;
     @Override
     public void init()
     {
@@ -22,15 +22,15 @@ public class TestSamplingServo extends OpMode
     {
         if (gamepad2.right_trigger > .2f)
         {
-            servoPos += .0038;
+            servoPos += .003;
             if (servoPos > 1)
                 servoPos = 1;
         }
         else if (gamepad2.right_bumper)
         {
-            servoPos -= .0038;
-            if (servoPos < 0)
-                servoPos = 0;
+            servoPos -= .003;
+            if (servoPos < .78)
+                servoPos = .78;
         }
         servo.setPosition(servoPos);
         telemetry.addData("ServoPos :", servoPos);
