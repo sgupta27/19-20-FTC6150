@@ -62,7 +62,6 @@ public class CompRobot extends BasicBot
 
     private void initMotorsAndMechParts(HardwareMap hardwareMap)
     {
-
         wristCollectorServo = hardwareMap.servo.get("wristCollectorServo");
         wristCollectorServo.setPosition(0.4);
 
