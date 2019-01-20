@@ -64,7 +64,7 @@ public class CompRobot extends BasicBot
     {
 
         wristCollectorServo = hardwareMap.servo.get("wristCollectorServo");
-        wristCollectorServo.setPosition(0);
+        wristCollectorServo.setPosition(0.4);
 
         rightGrabCRServo = hardwareMap.crservo.get("rightGrabCRServo");
         rightGrabCRServo.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -302,14 +302,14 @@ public class CompRobot extends BasicBot
 
     public void initCRServoAndServoPos()
     {
-        wristCollectorServo.setPosition(0);
+        wristCollectorServo.setPosition(0.4);
         rightGrabCRServo.setPower(0);
         leftGrabCRServo.setPower(0);
     }
 
     public void deployMarker()
     {
-        wristCollectorServo.setPosition(.49);
+        wristCollectorServo.setPosition(1);
         linearOpMode.sleep(300);
         leftGrabCRServo.setPower(1);
         rightGrabCRServo.setPower(1);
@@ -383,23 +383,23 @@ public class CompRobot extends BasicBot
         return collectorPivoterMotor;
     }
 
-    public DigitalChannel getSwitchSample()
+    public boolean getSwitchSample()
     {
-        return switchSample;
+        return switchSample.getState();
     }
 
     public boolean getSwitchDepot()
     {
-        return switchDepot;
+        return switchDepot.getState();
     }
 
     public boolean getSwitchCrater()
     {
-        return switchCrater;
+        return switchCrater.getState();
     }
 
-    public DigitalChannel getSwitchDelay()
+    public boolean getSwitchDelay()
     {
-        return switchDelay;
+        return switchDelay.getState();
     }
 }
