@@ -78,7 +78,7 @@ public class CompRobot extends BasicBot
         initCRServoAndServoPos();
 
         collectorLifterMotor = hardwareMap.get(DcMotorImplEx.class, "collectorLifterMotor");
-        collectorLifterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        collectorLifterMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         collectorLifterMotor.setMode(DcMotorImplEx.RunMode.STOP_AND_RESET_ENCODER);
         collectorLifterMotor.setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
         collectorLifterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
