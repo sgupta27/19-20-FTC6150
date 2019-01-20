@@ -21,6 +21,7 @@ public class CompRobot extends BasicBot
     private Servo wristCollectorServo, samplingServo;
     private CRServo rightGrabCRServo, leftGrabCRServo;
     private DigitalChannel switchSample, switchDepot, switchCrater, switchDelay;
+    //note: rightGrabCRServo is now used for paddles on water mill
 
     public CompRobot(HardwareMap hardwareMap)
     {
@@ -387,12 +388,12 @@ public class CompRobot extends BasicBot
         return switchSample;
     }
 
-    public DigitalChannel getSwitchDepot()
+    public boolean getSwitchDepot()
     {
         return switchDepot;
     }
 
-    public DigitalChannel getSwitchCrater()
+    public boolean getSwitchCrater()
     {
         return switchCrater;
     }
