@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class CompTeleV1 extends OpMode
 {
     private CompRobot compRobot;
-    private double wristPosition = 0;
+    private double wristPosition = .4;
 
     @Override
     public void init()
