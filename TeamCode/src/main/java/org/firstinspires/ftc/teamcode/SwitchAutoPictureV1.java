@@ -31,9 +31,7 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         boolean seenAtBott = false;
         boolean switchDepot = compRobot.getSwitchDepot();
         boolean switchCrater = compRobot.getSwitchCrater();
-
         waitForStart();
-        //compRobot.climbDown();
         sleep(100);
 
         if(vuforiaFunctions.getTfod().getRecognitions().size() == 1)
@@ -102,6 +100,7 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         telemetry.update();
 
         sleep(100);
+        compRobot.samplerDown();
         switch (pos)
         {
             case 'l':
@@ -119,13 +118,10 @@ public class SwitchAutoPictureV1 extends LinearOpMode
                 compRobot.driveStraight(10, .7f);
                 break;
             default:
-                compRobot.driveStraight(25, .8f);
-                while (compRobot.getFrontDistSens().getDistance(DistanceUnit.INCH) > 18 && compRobot.getFrontRightDistSens().getDistance(DistanceUnit.INCH) > 18)
-                {
-                    compRobot.driveMotors(.4f, .4f);
-                }
+                compRobot.driveStraight(20, .8f);
                 compRobot.stopDriveMotors();
         }
+        compRobot.samplerUp();
 
         if (switchDepot) //gonna need to edit these values when testing
         {
@@ -140,7 +136,7 @@ public class SwitchAutoPictureV1 extends LinearOpMode
                 }
                 case 'c':
                 {
-                    compRobot.driveStraight(-25, .8f);
+                    compRobot.driveStraight(-20, .8f);
                 }
                 case 'r':
                 {
