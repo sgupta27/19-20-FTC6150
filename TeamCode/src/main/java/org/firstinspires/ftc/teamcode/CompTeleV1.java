@@ -58,13 +58,13 @@ public class CompTeleV1 extends OpMode
 
         //This controls the wrist of the grabbers
 
-        if (gamepad2.right_trigger > .2f)
+        if (gamepad2.right_bumper)
         {
             wristPosition += .0038;
             if (wristPosition > 1)
                 wristPosition = 1;
         }
-        else if (gamepad2.right_bumper)
+        else if (gamepad2.right_trigger > .2f)
         {
             wristPosition -= .0038;
             if (wristPosition < 0.4)
