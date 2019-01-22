@@ -29,11 +29,11 @@ public class CompTeleV1 extends OpMode
         compRobot.driveMotors(-gamepad1.left_stick_y, -gamepad1.right_stick_y);
 
         // control the motor for climbing
-        compRobot.getClimberMotor().setPower(gamepad1.right_trigger-gamepad1.left_trigger);
-        telemetry.addData("CLimbMotorPow: ", gamepad1.right_trigger-gamepad1.left_trigger);
+        compRobot.getClimberMotor().setPower(gamepad1.right_trigger - gamepad1.left_trigger);
+        telemetry.addData("CLimbMotorPow: ", gamepad1.right_trigger - gamepad1.left_trigger);
         telemetry.addData("ClimbMotorEnc: ", compRobot.getClimberMotor().getCurrentPosition());
 
-        if(gamepad1.y)
+        if (gamepad1.y)
         {
             compRobot.samplerUp();
         }
@@ -46,12 +46,10 @@ public class CompTeleV1 extends OpMode
         if (gamepad2.left_trigger > .2f)
         {
             compRobot.setGrabberWheelPower(-gamepad2.left_trigger);
-        }
-        else if (gamepad2.left_bumper)
+        } else if (gamepad2.left_bumper)
         {
             compRobot.setGrabberWheelPower(1); //Positive power means you're spitting it out
-        }
-        else
+        } else
         {
             compRobot.setGrabberWheelPower(0);
         }
@@ -63,29 +61,30 @@ public class CompTeleV1 extends OpMode
             wristPosition += .0038;
             if (wristPosition > 1)
                 wristPosition = 1;
-        }
-        else if (gamepad2.right_trigger > .2f)
+        } else if (gamepad2.right_trigger > .2f)
         {
-        if (wristPosition < .4)
-        {
+            if (wristPosition < .4)
+            {
                 wristPosition = .4;
+            }
+            compRobot.getWristCollectorServo().setPosition(wristPosition);
+            telemetry.addData("WristPosition: ", wristPosition);
+
+            //Extender Controls (not climbing)
+            compRobot.getCollectorLifterMotor().setPower(-gamepad2.left_stick_y);
+
+            //The entire arm pivot controls or shoulder controls
+            compRobot.getCollectorPivoterMotor().setPower(-gamepad2.right_stick_y / 4);
+
+            telemetry.update();
         }
-        compRobot.getWristCollectorServo().setPosition(wristPosition);
-        telemetry.addData("WristPosition: ", wristPosition);
-
-        //Extender Controls (not climbing)
-        compRobot.getCollectorLifterMotor().setPower(-gamepad2.left_stick_y);
-
-        //The entire arm pivot controls or shoulder controls
-        compRobot.getCollectorPivoterMotor().setPower(-gamepad2.right_stick_y/4);
-
-        telemetry.update();
     }
-
-    @Override
+    
     public void stop()
     {
         compRobot.stopDriveMotors();
         super.stop();
     }
 }
+
+
