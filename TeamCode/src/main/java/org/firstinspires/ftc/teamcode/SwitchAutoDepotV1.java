@@ -25,7 +25,6 @@ public class SwitchAutoDepotV1 extends LinearOpMode
         boolean switchDepot = compRobot.getSwitchDepot();
         boolean switchCrater = compRobot.getSwitchCrater();
         waitForStart();
-        //compRobot.climbDown();
         sleep(100);
 
         if(vuforiaFunctions.getTfod().getRecognitions().size() == 1)
@@ -94,6 +93,7 @@ public class SwitchAutoDepotV1 extends LinearOpMode
         telemetry.update();
 
         sleep(1000);
+        compRobot.samplerDown();
         switch (pos)
         {
             case 'l':
@@ -116,6 +116,7 @@ public class SwitchAutoDepotV1 extends LinearOpMode
                 {
                     compRobot.driveMotors(.4f, .4f);
                 }
+                compRobot.samplerUp();
                 compRobot.stopDriveMotors();
         }
 
@@ -142,6 +143,10 @@ public class SwitchAutoDepotV1 extends LinearOpMode
                     {
                         break;
                     }
+                }
+                if (!switchCrater)
+                {
+                    compRobot.driveStraight(-20,.8f);
                 }
         }
 

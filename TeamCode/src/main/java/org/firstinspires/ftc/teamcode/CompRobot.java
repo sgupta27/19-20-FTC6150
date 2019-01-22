@@ -308,11 +308,17 @@ public class CompRobot extends BasicBot
 
     public void deployMarker()
     {
-        wristCollectorServo.setPosition(1);
+        wristCollectorServo.setPosition(.8);
+        float encTarget = 200f;
+        collectorPivoterMotor.setPower(1);
+        while ((collectorPivoterMotor.getCurrentPosition() < encTarget)
+                && (!linearOpMode.isStopRequested()))
+        {
+
+        }
         linearOpMode.sleep(300);
-        leftGrabCRServo.setPower(1);
-        rightGrabCRServo.setPower(1);
-        linearOpMode.sleep(800);
+        rightGrabCRServo.setPower(-1);
+        linearOpMode.sleep(3000);
 
         initCRServoAndServoPos();
     }

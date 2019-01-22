@@ -66,8 +66,8 @@ public class CompTeleV1 extends OpMode
         }
         else if (gamepad2.right_trigger > .2f)
         {
-            wristPosition -= .0038;
-            if (wristPosition < .4)
+        if (wristPosition < .4)
+        {
                 wristPosition = .4;
         }
         compRobot.getWristCollectorServo().setPosition(wristPosition);
