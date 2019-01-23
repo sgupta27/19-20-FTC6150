@@ -4,6 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sahithi Thumuluri on 12/24/18.
@@ -219,7 +223,8 @@ public class SwitchAutoPictureV1 extends LinearOpMode
     {
         //To Sahiti
         // vuforiaFunctions.getPositionOfGoldInTwoObjects() now checks to see if both objects (the two) are both golds
-        // it returns '?' if it sees two golds.
+        // keep in mind that it only looks at the two closest objects so if they both are gold, it'll return '?' so i added
+        //stuff for that too
 
         char pos = '?';
         boolean isCenterGold = false;
@@ -246,16 +251,17 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         else if(vuforiaFunctions.getTfod().getRecognitions().size() >= 2)
         {
             telemetry.addData("SAW 2", null);
-            pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
+            //pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
+            // commented out b/c it might see a gold and a silver as two closest objects, and it'll give out a bad pos
 
-            if(pos == '?') //we changed getPositonOfGoldInTwoObjects to return '?' if there are multiple golds.
-            {
+            //if(pos == '?') //we changed getPositonOfGoldInTwoObjects to return '?' if there are multiple golds.
+            //{
                 if (vuforiaFunctions.getOneClosestRecognition().getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
                 {
                     pos = 'c';
                     isCenterGold = true;
                 }
-            }
+            //}
         }
         telemetry.addData("Pos: ", pos);
         telemetry.update();
@@ -274,12 +280,15 @@ public class SwitchAutoPictureV1 extends LinearOpMode
                     if (vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
                     {
                         isRightGold = true;
-                        pos = 'r';
+                        return  'r';
                     } else
                         isRightGold = false;
                 }
                 else if (vuforiaFunctions.getTfod().getRecognitions().size() >= 2)
                 {
+                    List<Recognition> allRecognitions = vuforiaFunctions.getTfod().getRecognitions();
+
+
                     telemetry.addData("See 2", null);
                     pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
                 }
