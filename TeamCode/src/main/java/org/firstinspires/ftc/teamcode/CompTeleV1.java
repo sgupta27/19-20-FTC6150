@@ -46,10 +46,12 @@ public class CompTeleV1 extends OpMode
         if (gamepad2.left_trigger > .2f)
         {
             compRobot.setGrabberWheelPower(-gamepad2.left_trigger);
-        } else if (gamepad2.left_bumper)
+        }
+        else if (gamepad2.left_bumper)
         {
             compRobot.setGrabberWheelPower(1); //Positive power means you're spitting it out
-        } else
+        }
+        else
         {
             compRobot.setGrabberWheelPower(0);
         }
@@ -79,7 +81,7 @@ public class CompTeleV1 extends OpMode
             telemetry.update();
         }
     }
-    
+
     public void stop()
     {
         compRobot.stopDriveMotors();
