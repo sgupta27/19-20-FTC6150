@@ -295,9 +295,7 @@ public class VuforiaFunctions
         else if (allRecs.size() == 0)
             return null;
         else if (allRecs.size() == 1)
-        {
             return allRecs.get(0);
-        }
         else if (allRecs.size() >= 2)
         {
             Recognition temp = allRecs.get(0);
