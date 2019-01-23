@@ -1,14 +1,17 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.TestPrograms;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.VuforiaFunctions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous(name = "TensorFlowDecisionTree")
+@Disabled
 public class TensorFlowDecisionTree extends LinearOpMode
 {
     @Override

@@ -214,4 +214,88 @@ public class SwitchAutoPictureV1 extends LinearOpMode
 
         compRobot.stopDriveMotors();
     }
+
+    public char getPosNewRecognition()
+    {
+        //To Sahiti
+        // vuforiaFunctions.getPositionOfGoldInTwoObjects() now checks to see if both objects (the two) are both golds
+        // it returns '?' if it sees two golds.
+
+        char pos = '?';
+        boolean isCenterGold = false;
+        boolean isRightGold = false;
+        boolean seenAtHang = false;
+        boolean seenAtBott = false;
+
+        if(vuforiaFunctions.getTfod().getRecognitions().size() == 1)
+        {
+            telemetry.addData("SAW 1 OBJECT", null);
+            seenAtHang = true;
+            if(vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
+            {
+                telemetry.addData("SAW GOLD", null);
+                isCenterGold = true;
+                pos = 'c';
+            }
+            else
+            {
+                isCenterGold = false;
+                telemetry.addData("Center no gold", null);
+            }
+        }
+        else if(vuforiaFunctions.getTfod().getRecognitions().size() >= 2)
+        {
+            telemetry.addData("SAW 2", null);
+            pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
+
+            if(pos == '?') //we changed getPositonOfGoldInTwoObjects to return '?' if there are multiple golds.
+            {
+                if (vuforiaFunctions.getOneClosestRecognition().getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
+                {
+                    pos = 'c';
+                    isCenterGold = true;
+                }
+            }
+        }
+        telemetry.addData("Pos: ", pos);
+        telemetry.update();
+
+        compRobot.climbDown();
+
+        if (pos == '?')
+        {
+            telemetry.addData("In ? Block", null);
+            if(vuforiaFunctions.getTfod().getRecognitions() != null)
+            {
+                if (vuforiaFunctions.getTfod().getRecognitions().size() == 1)
+                {
+                    telemetry.addData("See 1 object", null);
+                    seenAtBott = true;
+                    if (vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
+                    {
+                        isRightGold = true;
+                        pos = 'r';
+                    } else
+                        isRightGold = false;
+                }
+                else if (vuforiaFunctions.getTfod().getRecognitions().size() >= 2)
+                {
+                    telemetry.addData("See 2", null);
+                    pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
+                }
+                else
+                    telemetry.addData("See none", null);
+            }
+            else
+                telemetry.addData("See nothing", null);
+        }
+
+        if(seenAtBott && seenAtHang && pos == '?')
+        {
+            if (!isRightGold && !isCenterGold)
+                pos = 'l';
+        }
+
+        return pos;
+    }
 }

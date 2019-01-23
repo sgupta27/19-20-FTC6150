@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.support.annotation.NonNull;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -17,16 +15,12 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
-import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 
 public class VuforiaFunctions
@@ -204,30 +198,43 @@ public class VuforiaFunctions
     {
         ArrayList<Recognition> recognitions = getTwoClosestRecognitions();
 
-        if(recognitions == null || recognitions.size() == 0 || recognitions.size() == 1)
+        if (recognitions == null || recognitions.size() == 0 || recognitions.size() == 1)
             return '?';
         else
         {
-                for (int i = 0; i < recognitions.size(); i++)
+            int numGold = 0;
+
+            for (Recognition temp : recognitions)
+            {
+                if (temp.getLabel().equals(LABEL_GOLD_MINERAL))
+                    numGold++;
+            }
+
+            if (numGold >= 2)
+            {
+                return '?';
+            }
+
+            for (int i = 0; i < recognitions.size(); i++)
+            {
+                if (recognitions.get(i).getLabel().equals(LABEL_GOLD_MINERAL))
                 {
-                    if(recognitions.get(i).getLabel().equals(LABEL_GOLD_MINERAL))
+                    if (i == 0)
                     {
-                        if(i == 0)
-                        {
-                            if(recognitions.get(i).getLeft() > recognitions.get(1).getRight())
-                                return 'c';
-                            else
-                                return 'r';
-                        }
+                        if (recognitions.get(i).getLeft() > recognitions.get(1).getLeft())
+                            return 'c';
                         else
-                        {
-                            if(recognitions.get(i).getLeft() > recognitions.get(0).getRight())
-                                return 'c';
-                            else
-                                return 'r';
-                        }
+                            return 'r';
+                    }
+                    else
+                    {
+                        if (recognitions.get(i).getLeft() > recognitions.get(0).getLeft())
+                            return 'c';
+                        else
+                            return 'r';
                     }
                 }
+            }
         }
         return 'l';
     }
@@ -239,7 +246,7 @@ public class VuforiaFunctions
 
         if (allRecs == null)
             return null;
-        else if ( allRecs.size() == 0)
+        else if (allRecs.size() == 0)
             return null;
         else if (allRecs.size() == 1)
         {
@@ -276,6 +283,31 @@ public class VuforiaFunctions
 
             return closeestRecs;
         }
+        return null;
+    }
+
+    public Recognition getOneClosestRecognition()
+    {
+        List<Recognition> allRecs = tfod.getRecognitions();
+
+        if (allRecs == null)
             return null;
+        else if (allRecs.size() == 0)
+            return null;
+        else if (allRecs.size() == 1)
+            return allRecs.get(0);
+        else if (allRecs.size() >= 2)
+        {
+            Recognition temp = allRecs.get(0);
+            for (int i = 1; i < allRecs.size(); i++)
+            {
+                if (temp.getHeight() > allRecs.get(i).getHeight())
+                {
+                    temp = allRecs.get(i);
+                }
+            }
+            return temp;
+        }
+        return null;
     }
 }
