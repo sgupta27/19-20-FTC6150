@@ -37,8 +37,8 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         boolean switchCrater = compRobot.getSwitchCrater();
         waitForStart();
         sleep(100);
-
-        if(vuforiaFunctions.getTfod().getRecognitions().size() == 1)
+        //scrapped sampling for this because the phone was reading minerals from the crater as well as sampling
+        /*if(vuforiaFunctions.getTfod().getRecognitions().size() == 1)
         {
             telemetry.addData("SAW 1 OBJECT", null);
             seenAtHang = true;
@@ -60,11 +60,11 @@ public class SwitchAutoPictureV1 extends LinearOpMode
             pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
         }
         telemetry.addData("Pos: ", pos);
-        telemetry.update();
+        telemetry.update();*/
 
         compRobot.climbDown();
 
-        if (pos == '?')
+        /*if (pos == '?')
         {
             telemetry.addData("In ? Block", null);
             if(vuforiaFunctions.getTfod().getRecognitions() != null)
@@ -125,11 +125,11 @@ public class SwitchAutoPictureV1 extends LinearOpMode
                 compRobot.driveStraight(20, .8f);
                 compRobot.stopDriveMotors();
         }
-        compRobot.samplerUp();
+        compRobot.samplerUp(); */
 
         if (switchDepot) //gonna need to edit these values when testing
         {
-            switch (pos)
+            /*switch (pos)
             {
                 case 'l':
                 {
@@ -149,9 +149,9 @@ public class SwitchAutoPictureV1 extends LinearOpMode
                     compRobot.driveStraight(-20, .8f);
                     compRobot.pivotenc(35, .5f);
                 }
-            }
+            }*/
             compRobot.driveStraight(8, .8f);
-            compRobot.pivotenc(85, .8f); //100 worked about 2/3 of the time
+            compRobot.pivotenc(90, .8f); //100 worked about 2/3 of the time
 
             while (true)
             {
@@ -204,12 +204,12 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         {
             if (!switchDepot)
             {
-                compRobot.driveStraight(24,.8f);
+                compRobot.driveStraight(35,.8f);
             }
             else
             {
                 compRobot.driveStraight(-20, .5f);
-                compRobot.pivotenc(-180, .8f);
+                compRobot.pivotenc(-210, .8f);
                 compRobot.hugWallToLeft(3 + rightSensorDepth, 7 + rightSensorDepth, 22, 65);
                 compRobot.driveStraight(15, .8f); //since the hugwall stops at the crater, this takes robot into crater
                 compRobot.stopDriveMotors();

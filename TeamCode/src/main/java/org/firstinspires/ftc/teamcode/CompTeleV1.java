@@ -90,5 +90,3 @@ public class CompTeleV1 extends OpMode
         super.stop();
     }
 }
-
-
