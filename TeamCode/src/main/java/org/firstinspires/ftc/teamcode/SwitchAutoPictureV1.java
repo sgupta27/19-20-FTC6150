@@ -286,9 +286,8 @@ public class SwitchAutoPictureV1 extends LinearOpMode
                 }
                 else if (vuforiaFunctions.getTfod().getRecognitions().size() >= 2)
                 {
-                    List<Recognition> allRecognitions = vuforiaFunctions.getTfod().getRecognitions();
-
-
+                    //there might be an issue in here if it sees more than two objects (like ones in the background
+                    //you may need to have it only look at the one closest object but idk, this is pretty tough
                     telemetry.addData("See 2", null);
                     pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
                 }
