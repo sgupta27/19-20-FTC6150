@@ -308,7 +308,7 @@ public class CompRobot extends BasicBot
 
     public void deployMarker()
     {
-        wristCollectorServo.setPosition(.8);
+        wristCollectorServo.setPosition(.6);
         float encTarget = 200f;
         collectorPivoterMotor.setPower(1);
         while ((collectorPivoterMotor.getCurrentPosition() < encTarget)
