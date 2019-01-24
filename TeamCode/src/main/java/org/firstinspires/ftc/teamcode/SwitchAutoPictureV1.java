@@ -200,14 +200,16 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         {
             if (!switchDepot)
             {
-                compRobot.driveStraight(35,.8f);
+                compRobot.samplerDown();
+                compRobot.driveStraight(38,.8f);
+                compRobot.samplerUp();
+                compRobot.driveStraight(4,.8f);
             }
             else
             {
                 compRobot.driveStraight(-20, .5f);
-                compRobot.pivotenc(-210, .8f);
+                compRobot.pivotenc(-270, .8f);
                 compRobot.hugWallToLeft(3 + rightSensorDepth, 7 + rightSensorDepth, 22, 65);
-                compRobot.driveStraight(15, .8f); //since the hugwall stops at the crater, this takes robot into crater
                 compRobot.stopDriveMotors();
             }
         }
@@ -217,7 +219,7 @@ public class SwitchAutoPictureV1 extends LinearOpMode
 
     public char getPosNewRecognition()
     {
-        //To Sahiti
+        //To Sahithi
         // vuforiaFunctions.getPositionOfGoldInTwoObjects() now checks to see if both objects (the two) are both golds
         // it returns '?' if it sees two golds.
 
