@@ -63,15 +63,16 @@ public class CompTeleV1 extends OpMode
             wristPosition += .0038;
             if (wristPosition > 1)
                 wristPosition = 1;
-        } else if (gamepad2.right_trigger > .2f)
-        {
-            wristPosition -= .0038;
-            if (wristPosition < .4)
-            {
-                wristPosition = .4;
-            }
         }
+        else if (gamepad2.right_trigger > .2f)
+        {
+            wristPosition += .0038;
+            if (wristPosition < .4)
+                wristPosition = .4;
+        }
+
         compRobot.getWristCollectorServo().setPosition(wristPosition);
+
         telemetry.addData("WristPosition: ", wristPosition);
 
         //Extender Controls (not climbing)
@@ -89,5 +90,3 @@ public class CompTeleV1 extends OpMode
         super.stop();
     }
 }
-
-

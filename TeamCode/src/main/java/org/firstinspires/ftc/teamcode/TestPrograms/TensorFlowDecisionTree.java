@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous(name = "TensorFlowDecisionTree")
-@Disabled
 public class TensorFlowDecisionTree extends LinearOpMode
 {
     @Override
@@ -36,7 +35,8 @@ public class TensorFlowDecisionTree extends LinearOpMode
                 }
             }
             */
-            telemetry.addData("SEe ", vuforiaFunctions.getPositionOfGoldInTwoObjects());
+            telemetry.addData("Pos: ", vuforiaFunctions.getPositionOfGoldInTwoObjects());
+            telemetry.addData("Closest Rec: ", vuforiaFunctions.getOneClosestRecognition());
             telemetry.update();
         }
     }
