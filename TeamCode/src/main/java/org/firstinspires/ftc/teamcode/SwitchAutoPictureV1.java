@@ -223,7 +223,7 @@ public class SwitchAutoPictureV1 extends LinearOpMode
     {
         //To Sahiti
         // vuforiaFunctions.getPositionOfGoldInTwoObjects() now checks to see if both objects (the two) are both golds
-        // keep in mind that it only looks at the two closest objects so if they both are gold, it'll return '?' so i added
+        // keep in mind that it only looks at the two closest objects so if they both are gold, it'll pos =  '?' so i added
         //stuff for that too
 
         char pos = '?';
@@ -254,13 +254,13 @@ public class SwitchAutoPictureV1 extends LinearOpMode
             //pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
             // commented out b/c it might see a gold and a silver as two closest objects, and it'll give out a bad pos
 
-            //if(pos == '?') //we changed getPositonOfGoldInTwoObjects to return '?' if there are multiple golds.
+            //if(pos == '?') //we changed getPositonOfGoldInTwoObjects to pos =  '?' if there are multiple golds.
             //{
-                if (vuforiaFunctions.getOneClosestRecognition().getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
-                {
-                    pos = 'c';
-                    isCenterGold = true;
-                }
+            if (vuforiaFunctions.getOneClosestRecognition().getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
+            {
+                isCenterGold = true;
+                pos =   'c';
+            }
             //}
         }
         telemetry.addData("Pos: ", pos);
@@ -280,7 +280,7 @@ public class SwitchAutoPictureV1 extends LinearOpMode
                     if (vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
                     {
                         isRightGold = true;
-                        return  'r';
+                        pos =   'r';
                     } else
                         isRightGold = false;
                 }
@@ -301,7 +301,7 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         if(seenAtBott && seenAtHang && pos == '?')
         {
             if (!isRightGold && !isCenterGold)
-                pos = 'l';
+                pos =  'l';
         }
 
         return pos;
