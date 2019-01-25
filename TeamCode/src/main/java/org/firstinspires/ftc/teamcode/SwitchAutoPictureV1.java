@@ -37,8 +37,8 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         boolean switchCrater = compRobot.getSwitchCrater();
         waitForStart();
         sleep(100);
-        //scrapped sampling for this because the phone was reading minerals from the crater as well as sampling
-        /*if(vuforiaFunctions.getTfod().getRecognitions().size() == 1)
+
+        if(vuforiaFunctions.getTfod().getRecognitions().size() == 1)
         {
             telemetry.addData("SAW 1 OBJECT", null);
             seenAtHang = true;
@@ -57,99 +57,19 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         else if(vuforiaFunctions.getTfod().getRecognitions().size() >= 2)
         {
             telemetry.addData("SAW 2", null);
-            pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
-        }
-        telemetry.addData("Pos: ", pos);
-        telemetry.update();*/
-
-        compRobot.climbDown();
-
-        /*if (pos == '?')
-        {
-            telemetry.addData("In ? Block", null);
-            if(vuforiaFunctions.getTfod().getRecognitions() != null)
+            if (vuforiaFunctions.getOneClosestRecognition().getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
             {
-                if (vuforiaFunctions.getTfod().getRecognitions().size() == 1)
-                {
-                    telemetry.addData("See 1 object", null);
-                    seenAtBott = true;
-                    if (vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
-                    {
-                        isRightGold = true;
-                        pos = 'r';
-                    } else
-                        isRightGold = false;
-                }
-                else if (vuforiaFunctions.getTfod().getRecognitions().size() >= 2)
-                {
-                    telemetry.addData("See 2", null);
-                    pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
-                }
-                else
-                {
-                    telemetry.addData("See none", null);
-                }
+                isCenterGold = true;
+                pos =   'c';
             }
-            else
-                telemetry.addData("See nothing", null);
         }
-
-        if(seenAtBott && seenAtHang && pos == '?')
-        {
-            if (!isRightGold && !isCenterGold)
-                pos = 'l';
-        }
-
         telemetry.addData("Pos: ", pos);
         telemetry.update();
 
-        sleep(100);
-        compRobot.samplerDown();
-        switch (pos)
-        {
-            case 'l':
-                compRobot.driveStraight(4, .7f);
-                compRobot.pivotenc(35, .5f);
-                compRobot.driveStraight(20, .7f);
-                compRobot.pivotenc(-60, .5f);
-                compRobot.driveStraight(10, .7f);
-                break;
-            case 'r':
-                compRobot.driveStraight(4, .7f);
-                compRobot.pivotenc(-35, .5f);
-                compRobot.driveStraight(20, .7f);
-                compRobot.pivotenc(60, .5f);
-                compRobot.driveStraight(10, .7f);
-                break;
-            default:
-                compRobot.driveStraight(20, .8f);
-                compRobot.stopDriveMotors();
-        }
-        compRobot.samplerUp(); */
+        compRobot.climbDown();
 
         if (switchDepot) //gonna need to edit these values when testing
         {
-            /*switch (pos)
-            {
-                case 'l':
-                {
-                    compRobot.driveStraight(-10, .8f);
-                    compRobot.pivotenc(60, .5f);
-                    compRobot.driveStraight(-20, .8f);
-                    compRobot.pivotenc(-35, .5f);
-                }
-                case 'c':
-                {
-                    compRobot.driveStraight(-20, .8f);
-                }
-                case 'r':
-                {
-                    compRobot.driveStraight(-10, .8f);
-                    compRobot.pivotenc(-60, .5f);
-                    compRobot.driveStraight(-20, .8f);
-                    compRobot.pivotenc(35, .5f);
-                }
-            }*/
             compRobot.driveStraight(8, .8f);
             compRobot.pivotenc(90, .8f); //100 worked about 2/3 of the time
 
@@ -204,10 +124,69 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         {
             if (!switchDepot)
             {
-                compRobot.samplerDown();
-                compRobot.driveStraight(38,.8f);
+                if (pos == '?')
+                {
+                    compRobot.driveStraight(5,.6f);
+                    sleep(250);
+                    compRobot.pivotenc(-15f,.8f);
+                    sleep(800);
+                    compRobot.pivotenc(15f,.8f);
+                    telemetry.addData("In ? Block", null);
+                    if(vuforiaFunctions.getTfod().getRecognitions() != null)
+                    {
+                        if (vuforiaFunctions.getTfod().getRecognitions().size() == 1)
+                        {
+                            telemetry.addData("See 1 object", null);
+                            seenAtBott = true;
+                            if (vuforiaFunctions.getTfod().getRecognitions().get(0).getLabel().equals(vuforiaFunctions.LABEL_GOLD_MINERAL))
+                            {
+                                isRightGold = true;
+                                pos =   'r';
+                            } else
+                                isRightGold = false;
+                        }
+                        else if (vuforiaFunctions.getTfod().getRecognitions().size() >= 2)
+                        {
+                            //there might be an issue in here if it sees more than two objects (like ones in the background
+                            //you may need to have it only look at the one closest object but idk, this is pretty tough
+                            telemetry.addData("See 2", null);
+                            pos = vuforiaFunctions.getPositionOfGoldInTwoObjects();
+                        }
+                        else
+                            telemetry.addData("See none", null);
+                    }
+                    else
+                        telemetry.addData("See nothing", null);
+                }
+
+                if(seenAtBott && seenAtHang && pos == '?')
+                {
+                    if (!isRightGold && !isCenterGold)
+                        pos =  'l';
+                }
+                switch (pos)
+                {
+                    case 'l':
+                    case '1':
+                        compRobot.driveStraight(4, .7f);
+                        compRobot.pivotenc(35, .5f);
+                        compRobot.driveStraight(24, .7f);
+                        compRobot.pivotenc(-90, .5f);
+                        compRobot.driveStraight(16, .7f);
+                        break;
+                    case 'r':
+                        compRobot.driveStraight(4, .7f);
+                        compRobot.pivotenc(-50, .5f);
+                        compRobot.driveStraight(24, .7f);
+                        compRobot.pivotenc(75, .5f);
+                        compRobot.driveStraight(16, .7f);
+                        break;
+                    default:
+                        compRobot.driveStraight(16, .8f);
+                        compRobot.stopDriveMotors();
+                        break;
+                }
                 compRobot.samplerUp();
-                compRobot.driveStraight(4,.8f);
             }
             else
             {
