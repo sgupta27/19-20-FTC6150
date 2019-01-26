@@ -69,6 +69,7 @@ public class SwitchAutoPictureV1 extends LinearOpMode
         compRobot.climbDown();
 
         if (switchDepot) //gonna need to edit these values when testing
+//            if (switchDepot) //gonna need to edit these values when testing
         {
             compRobot.driveStraight(8, .8f);
             compRobot.pivotenc(90, .8f); //100 worked about 2/3 of the time
