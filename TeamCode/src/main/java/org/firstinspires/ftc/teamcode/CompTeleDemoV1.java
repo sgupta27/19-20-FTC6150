@@ -82,10 +82,13 @@ public class CompTeleDemoV1 extends OpMode
         }
 
         //The "Demo mode" toggler
-        if(gamepad2.x && !hasXBeenPressed)
+        if(gamepad2.x)
         {
-            isInDemoMode = !isInDemoMode;
-            hasXBeenPressed = true;
+            if(!hasXBeenPressed)
+            {
+                isInDemoMode = !isInDemoMode;
+                hasXBeenPressed = true;
+            }
         }
         else
             hasXBeenPressed = false;
