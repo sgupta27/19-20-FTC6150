@@ -183,7 +183,7 @@ public class SwitchAutoPictureV1 extends LinearOpMode
                         compRobot.driveStraight(16, .7f);
                         break;
                     default:
-                        compRobot.driveStraight(16, .8f);
+                        compRobot.driveStraight(35, .8f);
                         compRobot.stopDriveMotors();
                         break;
                 }

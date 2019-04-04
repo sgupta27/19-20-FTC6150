@@ -1,12 +1,9 @@
-package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -19,10 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-/**
- * Created by Jeremy on 6/11/2017.
- */
-public class ParadeBot
+public class WalleBot
 {
     private DcMotorImplEx driveLeftOne = null;
     private DcMotorImplEx driveRightOne = null;
@@ -37,23 +31,15 @@ public class ParadeBot
     private float roboDiameterCm = (float) (45.7 * Math.PI); // can be adjusted
     private float wheelCircIn = 4 * (float) Math.PI; //Circumference of wheels used
     private float wheelCircCm = (float) (9.8 * Math.PI);
-
-    private DistanceSensor frontDistSens, frontRightDistSens;
-
     LinearOpMode linearOpMode;
 
-    public ParadeBot(HardwareMap hMap, LinearOpMode linearOpModeIN)
+    public WalleBot(HardwareMap hMap, LinearOpMode linearOpModeIN)
     {
         linearOpMode = linearOpModeIN;
-        initSensorsAndMotors(hMap);
+        initMotors(hMap);
     }
 
-    public ParadeBot(HardwareMap hMap)
-    {
-        initSensorsAndMotors(hMap);
-    }
-
-    private void initSensorsAndMotors(HardwareMap hMap)
+    private void initMotors(HardwareMap hMap)
     {
         imu = (hMap.get(BNO055IMU.class, "imu"));
         initIMU();
@@ -69,10 +55,14 @@ public class ParadeBot
         driveRightOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         driveLeftOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        frontDistSens = hMap.get(DistanceSensor.class, "frontLeftDistSens");
-        frontRightDistSens = hMap.get(DistanceSensor.class, "frontRightDistSens");
         stopAllMotors();
     }
+
+    public WalleBot(HardwareMap hMap)
+    {
+        initMotors(hMap);
+    }
+
 
     public void driveStraight_In(float inches)
     {
@@ -175,33 +165,6 @@ public class ParadeBot
         driveLeftOne.setPower(0);
         driveRightOne.setPower(0);
     }
-/*
-    public void driveStraight_Cm(float cm, double pow)
-    {
-        float encTarget = encCountsPerRev / wheelCircCm * cm;
-
-        resetEncoders();
-        //Notes: We are using Andymark Neverrest 40
-        // 1120 counts per rev
-
-        if(cm < 0)
-        {
-            driveRightOne.setPower(-Math.abs(pow));
-            driveLeftOne.setPower(Math.abs(pow));
-
-            while (driveLeftOne.getCurrentPosition() < -encTarget && driveRightOne.getCurrentPosition() > encTarget) {}
-        }
-        else
-        {
-            driveRightOne.setPower(Math.abs(pow));
-            driveLeftOne.setPower(-Math.abs(pow));
-
-            while(driveLeftOne.getCurrentPosition() > -encTarget && driveRightOne.getCurrentPosition() < encTarget){}
-        }
-
-        stopAllMotors();
-    }
-    */
 
     public void spin_Right(float degrees)
     {
@@ -510,16 +473,6 @@ public class ParadeBot
         return angles.firstAngle;
     }
 
-    public double getDistFromFront_In()
-    {
-        return frontDistSens.getDistance(DistanceUnit.INCH);
-    }
-
-    public double getDistFromRight_In()
-    {
-        return frontRightDistSens.getDistance(DistanceUnit.INCH);
-    }
-
     private void resetDriveEncoders()//sets encoders to 0 for motors
     {
         driveRightOne.setMode(DcMotorImplEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -537,59 +490,4 @@ public class ParadeBot
     {
         return driveRightOne;
     }
-
-    public DistanceSensor getFrontLeftDistSens()
-    {
-        return frontDistSens;
-    }
-
-    public void setFrontLeftDistSens(DistanceSensor frontLeftDistSens)
-    {
-        this.frontDistSens = frontLeftDistSens;
-    }
-
-    public DistanceSensor getFrontRightDistSens()
-    {
-        return frontRightDistSens;
-    }
-
-    public void setFrontRightDistSens(DistanceSensor frontRightDistSens)
-    {
-        this.frontRightDistSens = frontRightDistSens;
-    }
-
-    /*
-    public void turnAbsolute(int target)
-    {
-        double direction = angles.firstAngle;
-        double minspeed = .1;
-        double maxspeed = .3;
-        double errorDegs = Math.abs(direction - target);
-        double turnSpeed = maxspeed * (errorDegs / 180) + minspeed;
-        while (Math.abs(direction - target) > 2 && opModeIsActive())
-        {
-            if (direction > target)
-            {
-                back_left.setPower(turnSpeed);
-                front_left.setPower(turnSpeed);
-                back_right.setPower(-turnSpeed);
-                front_right.setPower(-turnSpeed);
-            }
-            if (direction < target)
-            {
-                back_left.setPower(-turnSpeed);
-                front_left.setPower(-turnSpeed);
-                back_right.setPower(turnSpeed);
-                front_right.setPower(turnSpeed);
-            }
-            direction = angles.firstAngle;
-            telemetry.addData("accu", String.format("%03d", zAccumulated));
-            telemetry.update();
-        }
-        back_left.setPower(0);
-        front_left.setPower(0);
-        back_right.setPower(0);
-        front_right.setPower(0);
-    }
-    */
 }

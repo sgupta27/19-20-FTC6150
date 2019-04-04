@@ -98,6 +98,7 @@ public class SwitchAutoDepotV1 extends LinearOpMode
         telemetry.update();
 
         sleep(1000);
+        compRobot.driveStraight(5,.8f);
         compRobot.samplerDown();
         switch (pos)
         {
@@ -107,17 +108,17 @@ public class SwitchAutoDepotV1 extends LinearOpMode
                 compRobot.pivotenc(35, .5f);
                 compRobot.driveStraight(28, .7f);
                 compRobot.pivotenc(-90, .5f);
-                compRobot.driveStraight(20, .7f);
+                compRobot.driveStraight(12, .7f);
                 break;
             case 'r':
                 compRobot.driveStraight(4, .7f);
                 compRobot.pivotenc(-50, .5f);
                 compRobot.driveStraight(28, .7f);
                 compRobot.pivotenc(75, .5f);
-                compRobot.driveStraight(20, .7f);
+                compRobot.driveStraight(16, .7f);
                 break;
             default:
-                compRobot.driveStraight(20, .8f);
+                compRobot.driveStraight(16, .8f);
                 while (compRobot.getFrontDistSens().getDistance(DistanceUnit.INCH) > 18 && compRobot.getFrontRightDistSens().getDistance(DistanceUnit.INCH) > 18)
                 {
                     compRobot.driveMotors(.4f, .4f);
@@ -139,8 +140,8 @@ public class SwitchAutoDepotV1 extends LinearOpMode
                 {
                     case 'r':
                     {
-                        compRobot.driveStraight(-20, .8f);
-                        compRobot.pivotenc(-75,.6f);
+                        compRobot.driveStraight(-16, .8f);
+                        compRobot.pivotenc(-90,.6f);
                         compRobot.driveStraight(-5,.8f);
                         compRobot.stopDriveMotors();
                         break;
