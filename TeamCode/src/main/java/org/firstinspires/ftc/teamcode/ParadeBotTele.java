@@ -30,7 +30,6 @@ public class ParadeBotTele extends OpMode
 
     public void loop()
     {
-
         if (toggleSpeedMode)
         {
             telemetry.addData("Speed mode = ON", null);
@@ -51,7 +50,7 @@ public class ParadeBotTele extends OpMode
         telemetry.addData("REncoders= ", tank.getRightEncoderPos());
         telemetry.addData("LEncoders= ", tank.getLeftEncoderPos());
         telemetry.update();
-        tank.driveMotors(lValue, rValue);
+        tank.driveMotors(-lValue, -rValue);
 
         if (gamepad1.a)
         {
