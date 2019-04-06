@@ -3,7 +3,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name = "WalleBot")
+@TeleOp(name = "WalleBotTele")
 public class WalleBotTele extends OpMode
 {
     private WalleBot tank;
