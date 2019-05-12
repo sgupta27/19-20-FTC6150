@@ -20,6 +20,7 @@ public class WalleBot
 {
     private DcMotorImplEx driveLeftOne = null;
     private DcMotorImplEx driveRightOne = null;
+    private BNO055IMU imu;
     Orientation angles;
     Acceleration gravity;
     int loops = 0;
@@ -40,6 +41,9 @@ public class WalleBot
 
     private void initMotors(HardwareMap hMap)
     {
+        imu = (hMap.get(BNO055IMU.class, "imu"));
+        initIMU();
+
         driveLeftOne = hMap.get(DcMotorImplEx.class, "driveLeftOne");
         driveRightOne = hMap.get(DcMotorImplEx.class, "driveRightOne");
 
@@ -196,7 +200,7 @@ public class WalleBot
         stopAllMotors();
     }
 
-    /*public void spin_Right_IMU(float degrees, double pow)
+    public void spin_Right_IMU(float degrees, double pow)
     {
         while (degrees > 180)
         {
@@ -206,6 +210,8 @@ public class WalleBot
         {
             degrees += 360;
         }
+
+        initIMU();
         if (degrees < 0)
         {
             driveRightOne.setPower(-Math.abs(pow));
@@ -221,7 +227,7 @@ public class WalleBot
         }
 
         stopAllMotors();
-    }*/
+    }
 
     public void spin_Left(float degrees)
     {
@@ -258,7 +264,7 @@ public class WalleBot
         stopAllMotors();
     }
 
-    /*public void spin_Left_IMU(float deg, double pow)
+    public void spin_Left_IMU(float deg, double pow)
     {
         float degrees = deg;
         if (deg > 0)
@@ -294,7 +300,7 @@ public class WalleBot
         }
 
         stopAllMotors();
-    }*/
+    }
     public void pivot(double encoder)//Utilizes two motors at a time; spins in place
     {
         resetEncoders();
@@ -368,7 +374,7 @@ public class WalleBot
         stopDriveMotors();
     }
 
-    /*public void pivot_IMU(float degrees_IN)
+    public void pivot_IMU(float degrees_IN)
     {
         pivot_IMU(degrees_IN, .8);
     }
@@ -404,7 +410,7 @@ public class WalleBot
         }
 
         stopAllMotors();
-    }*/
+    }
 
     public int getRightEncoderPos()
     {
@@ -436,7 +442,7 @@ public class WalleBot
         driveLeftOne.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    /*public void initIMU()
+    public void initIMU()
     {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -449,7 +455,7 @@ public class WalleBot
         imu.startAccelerationIntegration(new Position(), new Velocity(), 100);
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         //gravity  = imu.getGravity();
-    }*/
+    }
 
 
     public double anglePerpToGrav()
