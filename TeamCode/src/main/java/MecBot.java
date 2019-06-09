@@ -505,6 +505,11 @@ public class MecBot
         {
             driveRightFront.setMode(DcMotorImplEx.RunMode.STOP_AND_RESET_ENCODER);
             driveLeftFront.setMode(DcMotorImplEx.RunMode.STOP_AND_RESET_ENCODER);
+            driveRightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            driveLeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            driveRightFront.setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
+            driveLeftFront.setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
             driveRightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             driveLeftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }

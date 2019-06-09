@@ -25,7 +25,7 @@ public class MecTestTele extends OpMode
 
     public void loop()
     {
-        if (gamepad1.a)
+        if (gamepad1.b)
         {
             holo.driveRightFront(1f);
         }
@@ -33,7 +33,7 @@ public class MecTestTele extends OpMode
         {
             holo.driveRightFront(0f);
         }
-        if (gamepad1.b)
+        if (gamepad1.a)
         {
             holo.driveRightBack(1f);
         }
@@ -41,7 +41,7 @@ public class MecTestTele extends OpMode
         {
             holo.driveRightBack(0f);
         }
-        if (gamepad1.x)
+        if (gamepad1.y)
         {
             holo.driveLeftFront(1f);
         }
@@ -49,7 +49,7 @@ public class MecTestTele extends OpMode
         {
             holo.driveLeftFront(0f);
         }
-        if (gamepad1.y)
+        if (gamepad1.x)
         {
             holo.driveLeftBack(1f);
         }
