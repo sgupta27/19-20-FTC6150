@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class MecBot
 {
+
         private DcMotorImplEx driveLeftFront = null;
         private DcMotorImplEx driveLeftBack = null;
         private DcMotorImplEx driveRightFront = null;
@@ -39,10 +40,10 @@ public class MecBot
             driveLeftBack = hMap.get(DcMotorImplEx.class, "driveLeftBack");
             driveRightFront = hMap.get(DcMotorImplEx.class, "driveRightFront");
             driveRightBack = hMap.get(DcMotorImplEx.class, "driveRightBack");
-            resetEncoders();
 
-            driveRightFront.setDirection(DcMotorSimple.Direction.FORWARD);
-            driveRightBack.setDirection(DcMotorSimple.Direction.FORWARD);
+
+            driveRightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+            driveRightBack.setDirection(DcMotorSimple.Direction.REVERSE);
             driveLeftFront.setDirection(DcMotorSimple.Direction.FORWARD);
             driveLeftBack.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -52,6 +53,7 @@ public class MecBot
             driveLeftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             stopAllMotors();
+
         }
 
         public MecBot(HardwareMap hMap)
@@ -59,39 +61,20 @@ public class MecBot
             initMotors(hMap);
         }
 
-
-        public void driveStraight_In(float inches)
+        public void driveStraight_Enc(float encoders, double pow)
         {
-            driveStraight_In(inches, .75);
-        }
+            resetDriveEncoders();
+            driveRightFront.setPower(pow);
+            driveRightBack.setPower(pow);
+            driveLeftFront.setPower(pow);
+            driveLeftBack.setPower(pow);
+            encoders=Math.abs(encoders);
+            
+            while (Math.abs(driveRightFront.getCurrentPosition()) < encoders && Math.abs(driveRightBack.getCurrentPosition()) < encoders && Math.abs(driveLeftFront.getCurrentPosition()) < encoders && Math.abs(driveLeftBack.getCurrentPosition()) < encoders)
 
-        public void driveStraight_In(float inches, double pow)
-        {
-            float encTarget = 88.3378f * Math.abs(inches) - 357.7886f;
-
-            if (pow < 0)
-                inches = -inches;
-
-            resetEncoders();
-
-            if (inches < 0)
             {
-                driveRightFront.setPower(Math.abs(pow));
-                driveRightBack.setPower(Math.abs(pow));
-                driveLeftFront.setPower(-Math.abs(pow));
-                driveLeftBack.setPower(-Math.abs(pow));
-            } else
-            {
-                driveRightFront.setPower(-Math.abs(pow));
-                driveRightBack.setPower(-Math.abs(pow));
-                driveLeftFront.setPower(Math.abs(pow));
-                driveLeftBack.setPower(Math.abs(pow));
+
             }
-
-            while (Math.abs(driveLeftFront.getCurrentPosition()) < Math.abs(encTarget) && Math.abs(driveRightFront.getCurrentPosition()) < Math.abs(encTarget) && !linearOpMode.isStopRequested())
-            {
-            }
-
             stopAllMotors();
         }
 
@@ -181,7 +164,6 @@ public class MecBot
             //To explain, the first set of parenthesis gets the radius of robot and multiplies it by the degrees in radians
             //second set gets encoder counts per centimeter
 
-            resetEncoders();
 
             if (degrees < 0) //spins clockwise
             {
@@ -242,7 +224,6 @@ public class MecBot
             //To explain, the first set of parenthesis gets the radius of robot and multiplies it by the degrees in radians
             //second set gets encoder counts per centimeter
 
-            resetEncoders();
 
             if (degrees > 0) //This spins the robot counterclockwise
             {
@@ -303,7 +284,7 @@ public class MecBot
         }*/
         public void pivot(double encoder)//Utilizes two motors at a time; spins in place
         {
-            resetEncoders();
+
 
             //It pivots in the direction of how to unit circle spins
             if (encoder < 0) //Pivot Clockwise
@@ -330,7 +311,7 @@ public class MecBot
         }
         public void pivot(double degrees, double pow)//Utilizes two motors at a time; spins in place
         {
-            resetEncoders();
+
             double encTarget;
             encTarget = Math.abs(17.254 * Math.abs(degrees) + 367.295);
 
@@ -358,7 +339,7 @@ public class MecBot
 
         public void pivot(float degrees, double pow)//Utilizes two motors at a time; spins in place
         {
-            resetEncoders();
+
             double encTarget;
             encTarget = Math.abs(17.254 * Math.abs(degrees) + 367.295);
 
@@ -462,14 +443,6 @@ public class MecBot
             driveRightBack.setPower(0);
         }
 
-        private void resetEncoders()
-        {
-            driveRightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            driveLeftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            driveRightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            driveLeftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
-
     /*public void initIMU()
     {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -505,13 +478,13 @@ public class MecBot
         {
             driveRightFront.setMode(DcMotorImplEx.RunMode.STOP_AND_RESET_ENCODER);
             driveLeftFront.setMode(DcMotorImplEx.RunMode.STOP_AND_RESET_ENCODER);
-            driveRightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            driveLeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            driveRightBack.setMode(DcMotorImplEx.RunMode.STOP_AND_RESET_ENCODER);
+            driveLeftBack.setMode(DcMotorImplEx.RunMode.STOP_AND_RESET_ENCODER);
 
             driveRightFront.setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
             driveLeftFront.setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
-            driveRightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            driveLeftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            driveRightBack.setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
+            driveLeftBack.setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
         }
 
         public DcMotorImplEx getDriveLeftFront()
